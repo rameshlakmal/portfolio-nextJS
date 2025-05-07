@@ -8,6 +8,7 @@ import Portfolio from "./components/Portfolio";
 import Contact from "./components/Contact";
 import { useNav } from "./context/NavContext";
 import { motion } from "framer-motion";
+import { Typewriter } from "react-simple-typewriter";
 
 export default function Home() {
   const { isExpanded } = useNav();
@@ -83,7 +84,24 @@ export default function Home() {
                 animate="visible"
                 variants={containerVariants}
               >
-                <motion.h1
+                <h1 className="text-6xl font-bold mb-4">Hi I'm Ramesh</h1>
+                <div className="text-left mt-10 text-white">
+                  <p className="text-2xl text-[#ffffff]">
+                    <Typewriter
+                      words={[
+                        "I'm a passionate QA engineer, dedicated to crafting flawless digital experiences through precision, testing, and a sharp eye for detail.",
+                        "From testing flows to catching the little stuff, I’m all about keeping things smooth and stress-free.",
+                      ]}
+                      loop={0}
+                      cursor
+                      cursorStyle="_"
+                      typeSpeed={50}
+                      deleteSpeed={30}
+                      delaySpeed={1000}
+                    />
+                  </p>
+                </div>
+                {/* <motion.h1
                   className="text-5xl md:text-6xl font-bold mb-6"
                   variants={itemVariants}
                 >
@@ -95,15 +113,8 @@ export default function Home() {
                 >
                   I'm a passionate developer creating amazing digital
                   experiences
-                </motion.p>
-                <motion.div variants={itemVariants}>
-                  <a
-                    href="#contact"
-                    className="bg-white text-black px-8 py-3 rounded-full font-semibold hover:bg-opacity-90 transition-all duration-300"
-                  >
-                    Get in Touch
-                  </a>
-                </motion.div>
+                </motion.p> */}
+                <motion.div variants={itemVariants}></motion.div>
               </motion.div>
             </div>
           </div>

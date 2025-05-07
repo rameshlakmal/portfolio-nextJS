@@ -24,22 +24,22 @@ export default function Navbar() {
     {
       name: "About",
       path: "#about",
-      icon: <i className="far fa-user text-[#a8a9b4]"></i>,
+      icon: <i className="far fa-user"></i>,
     },
     {
       name: "Resume",
       path: "#resume",
-      icon: <i className="far fa-file-alt text-[#a8a9b4]"></i>,
+      icon: <i className="far fa-file-alt"></i>,
     },
     {
       name: "Portfolio",
       path: "#portfolio",
-      icon: <i className="far fa-folder text-[#a8a9b4]"></i>,
+      icon: <i className="far fa-folder"></i>,
     },
     {
       name: "Contact",
       path: "#contact",
-      icon: <i className="far fa-envelope text-[#a8a9b4]"></i>,
+      icon: <i className="far fa-envelope"></i>,
     },
   ];
 
@@ -109,9 +109,15 @@ export default function Navbar() {
             <div className="flex-shrink-0">
               <button
                 onClick={() => setIsExpanded(!isExpanded)}
-                className="p-2 rounded-lg hover:bg-gray-700 transition-all duration-200 hover:scale-110 active:scale-95 text-white"
+                className=" p-2 transition-all duration-200 hover:scale-150 active:scale-155 text-white"
               >
-                {isExpanded ? "◀" : "▶"}
+                <i
+                  className={`fas ${
+                    isExpanded
+                      ? "fa-solid fa-circle-arrow-left"
+                      : "fa-solid fa-circle-arrow-right"
+                  }`}
+                ></i>
               </button>
             </div>
           </div>
@@ -126,7 +132,7 @@ export default function Navbar() {
               href="https://github.com/rameshlakmal"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[#a8a9b4] hover:text-white transition-colors"
+              className="text-[#a8a9b4] hover:text-[#fc2589] transition-colors"
             >
               <i className="fab fa-github text-2xl"></i>
             </a>
@@ -134,7 +140,7 @@ export default function Navbar() {
               href="www.linkedin.com/in/rameshlakmal"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[#a8a9b4] hover:text-white transition-colors"
+              className="text-[#a8a9b4] hover:text-[#fc2589] transition-colors"
             >
               <i className="fab fa-linkedin text-2xl"></i>
             </a>
@@ -145,7 +151,7 @@ export default function Navbar() {
             {navItems.map((item) => (
               <div
                 key={item.path}
-                className="transition-all duration-200 hover:scale-105 active:scale-95"
+                className="transition-all duration-200 hover:scale-105 active:scale-95 "
               >
                 <button
                   onClick={() => handleNavigation(item.path)}
@@ -153,7 +159,7 @@ export default function Navbar() {
                     ${
                       pathname === item.path
                         ? "bg-gray-700 text-white"
-                        : "text-[#a8a9b4] hover:bg-gray-700 hover:text-white"
+                        : "text-[#a8a9b4] hover:bg-[#2d2f30] hover:text-white font-bold transition-colors"
                     }
                     ${!isExpanded && "justify-center"}`}
                 >
@@ -194,13 +200,16 @@ export default function Navbar() {
           <span className="text-xl font-bold text-white hidden md:block">
             Portfolio
           </span>
+
           <motion.button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="p-2 rounded-lg hover:bg-gray-700 transition-colors text-white"
+            className="p-2 rounded-lg transition-colors text-white"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
           >
-            {isMobileMenuOpen ? "✕" : "☰"}
+            <i
+              className={`fas ${isMobileMenuOpen ? "fa-xmark" : "fa-bars"}`}
+            ></i>
           </motion.button>
         </div>
 
@@ -208,7 +217,7 @@ export default function Navbar() {
         <AnimatePresence>
           {isMobileMenuOpen && (
             <motion.div
-              className="bg-gray-800"
+              className="bg-gray-1000"
               initial="closed"
               animate="open"
               exit="closed"
@@ -222,11 +231,11 @@ export default function Navbar() {
                 >
                   <button
                     onClick={() => handleNavigation(item.path)}
-                    className={`w-full flex items-center px-4 py-3 border-b border-gray-700 last:border-b-0
+                    className={`w-full flex items-center px-4 py-3 border-b border-gray-1000 last:border-b-0
                       ${
                         pathname === item.path
-                          ? "bg-gray-700 text-white"
-                          : "text-[#a8a9b4] hover:bg-gray-700 hover:text-white"
+                          ? " text-[#fc2589]"
+                          : "text-[#a8a9b4] hover:bg-[#fc2589] hover:text-white"
                       }`}
                   >
                     <span className="text-xl mr-3">{item.icon}</span>
