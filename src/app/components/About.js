@@ -25,30 +25,14 @@ export default function About() {
     },
 
     {
-      label: "Phone",
-      value: "+94 77 123 4567",
-      icon: "fa-solid fa-phone",
-    },
-    {
-      label: "City",
-      value: "Colombo, Sri Lanka",
-      icon: "fas fa-search-location",
-    },
-
-    {
       label: "Degree",
-      value: "BSc in Computer Science",
+      value: "BSc (Hons) in Information Technology",
       icon: "fas fa-graduation-cap",
     },
     {
       label: "Experiance Level",
       value: "1.5+ years",
       icon: "fas fa-laptop-house",
-    },
-    {
-      label: "Email",
-      value: "ramesh.lakmal@example.com",
-      icon: "far fa-envelope",
     },
   ];
 
