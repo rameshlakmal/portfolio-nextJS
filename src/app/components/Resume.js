@@ -17,8 +17,35 @@ export default function Resume() {
       company: "WaveZync",
       period: "October 2024 - Present",
       description: [
-        "Performed functional and regression testing on the Analyst Builder platform, collaborating with development teams to identify, document, and resolve issues, ensuring a seamless user experience across browsers and devices.",
-        "Performed testing on the Paradise Cloud Hosting and Configuration Solution, validating its performance, scalability, and integration with web applications, ensuring seamless deployment and configuration management across environments.",
+        <>
+          Performed functional and regression testing on the{" "}
+          <a
+            href="https://www.analystbuilder.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: "rgb(252, 37, 137)" }}
+          >
+            Analyst Builder
+          </a>{" "}
+          platform, collaborating with development teams to identify, document,
+          and resolve issues, ensuring a seamless user experience across
+          browsers and devices.
+        </>,
+        <>
+          Performed testing on the{" "}
+          <a
+            href="https://paradise-cloud.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: "rgb(252, 37, 137)" }}
+          >
+            Paradise Cloud Hosting and Configuration Solution
+          </a>{" "}
+          , validating its performance, scalability, and integration with web
+          applications, ensuring seamless deployment and configuration
+          management across environments.
+        </>,
+
         "Conducted functional, usability testing on mobile applications across iOS and Android platforms, ensuring seamless user experience and optimal performance.",
       ],
     },
@@ -27,8 +54,32 @@ export default function Resume() {
       company: "Impact IT Solutions Private Limited",
       period: "November 2023 - September 2024",
       description: [
-        "Performed detailed manual and automated testing of ERP system to validate functionality, accuracy, and integration of financial and operational processes.",
+        <>
+          Performed detailed manual and automated testing of{" "}
+          <a
+            href="https://enimbus360.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: "rgb(252, 37, 137)" }}
+          >
+            ERP system
+          </a>{" "}
+          to validate functionality, accuracy, and integration of financial and
+          operational processes.
+        </>,
         "Tested a Point of Sale (POS) application integrated with an ERP system, ensuring seamless data synchronization and operational efficiency between ERP and POS systems.",
+        <>
+          Performed comprehensive testing of a{" "}
+          <a
+            href="https://we4e.app/"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: "rgb(252, 37, 137)" }}
+          >
+            Learning Management System (LMS)
+          </a>{" "}
+          to ensure overall functionality and user experience.
+        </>,
         "Performed comprehensive testing of a Learning Management System (LMS) to ensure overall functionality and user experience.",
         "Tested a highly sophisticated LMS, focusing on its complex functionality and ensuring overall performance, usability, and seamless integration across various components.",
         "Created comprehensive bug reports detailing issues, including steps to reproduce, expected and actual results, and relevant system information.",
@@ -41,10 +92,38 @@ export default function Resume() {
       company: "Impact IT Solutions Private Limited",
       period: "April 2023 - October 2023",
       description: [
+        <>
+          Performed functional and compatibility testing on WordPress websites{" "}
+          <a
+            href="https://dinukasafari.com/, https://50scentsspices.com/, https://acmeshipping.lk/"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: "rgb(252, 37, 137)" }}
+          >
+            e.g. Dinuka Safari,
+          </a>{" "}
+          <a
+            href="https://50scentsspices.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: "rgb(252, 37, 137)" }}
+          >
+            50 scents spices,
+          </a>{" "}
+          <a
+            href="https://acmeshipping.lk/"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: "rgb(252, 37, 137)" }}
+          >
+            Acme Shipping
+          </a>{" "}
+          to ensure responsiveness, plugin stability, and cross-browser
+          consistency.
+        </>,
+
         "Conducted comprehensive testing of enterprise level PowerApp applications to ensure functionality, usability, and performance.",
         "Created, managed, and executed test cases using Azure DevOps, ensuring comprehensive coverage and effective tracking of test results.",
-        "Performed comprehensive testing of a Learning Management System (LMS) to ensure overall functionality and user experience.",
-        "Conducted manual testing on a diverse range of web applications across various industries.",
         "Collaborated with the development team to communicate and resolve identified issues",
       ],
     },
