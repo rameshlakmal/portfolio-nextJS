@@ -66,6 +66,17 @@ export default function Portfolio() {
       link: "https://github.com/rameshlakmal/playwright-and-zerostep",
       category: "Performance Testing",
     },
+    {
+      id: "playwright-actions-AIO",
+      title:
+        "Setting Up a QA Workflow with Playwright, GitHub Actions and AIO Tests",
+      description:
+        "This article explores how to integrate AIO Tests with GitHub Actions to run test workflows directly from Jira AIO Interface 🧪⚙️. Learn how to use the native Playwright reporter for real-time updates, detailed reporting, and full traceability from test cases to defects. 🔄📊",
+      image: "/img/portfolio/project6/cover.png",
+      technologies: ["Playwright", "GitHub Actions", "AIO Tests"],
+      link: "https://www.linkedin.com/pulse/setting-up-qa-workflow-playwright-github-actions-aio-tests-lakmal-kvscc",
+      category: "Playwright",
+    },
   ];
 
   const filteredProjects =
