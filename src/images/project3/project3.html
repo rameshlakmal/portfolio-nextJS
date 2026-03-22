@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Performance Monitoring Using JMeter + InfluxDB + Grafana</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="assets/img/favicon.png" rel="icon">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+  <!-- Main CSS File -->
+  <link href="assets/css/main.css" rel="stylesheet">
+
+  <!-- =======================================================
+  * Template Name: iPortfolio
+  * Template URL: https://bootstrapmade.com/iportfolio-bootstrap-portfolio-websites-template/
+  * Updated: Jun 29 2024 with Bootstrap v5.3.3
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+  <style>
+    li {
+      margin-bottom: 10px; /* Adjust the spacing as needed */
+    }
+  </style>
+</head>
+
+
+
+<body class="portfolio-details-page">
+  <header id="header" class="header dark-background d-flex flex-column">
+    <i class="header-toggle d-xl-none bi bi-list"></i>
+
+    <div class="profile-img">
+      <img src="assets/img/my-profile-img.jpg" alt="" class="img-fluid rounded-circle">
+    </div>
+
+    <a href="project2.html" class="logo d-flex align-items-center justify-content-center">
+      <!-- Uncomment the line below if you also wish to use an image logo -->
+      <!-- <img src="assets/img/logo.png" alt=""> -->
+      <h1 class="sitename">Ramesh Lakmal</h1>
+    </a>
+
+    <div class="social-links text-center">
+      <a href="https://github.com/rameshlakmal" class="google-plus"><i class="bi bi-github"></i></a>
+      <a href="https://www.linkedin.com/in/ramesh-lakmal99/" class="linkedin"><i class="bi bi-linkedin"></i></a>
+    </div>
+
+    <nav id="navmenu" class="navmenu">
+      <ul>
+        <li><a href="index.html#hero"><i class="bi bi-house navicon"></i>Home</a></li>
+        <li><a href="index.html#about"><i class="bi bi-person navicon"></i> About</a></li>
+        <li><a href="index.html#resume"><i class="bi bi-file-earmark-text navicon"></i> Resume</a></li>
+        <li><a href="index.html#portfolio" class="active"><i class="bi bi-images navicon"></i> Portfolio</a></li>
+        <li><a href="index.html#contact"><i class="bi bi-envelope navicon"></i> Contact</a></li>
+      </ul>
+    </nav>
+
+  </header>
+
+  <main class="main">
+
+    <!-- Page Title -->
+    <div class="page-title dark-background">
+      <div class="container d-lg-flex justify-content-between align-items-center">
+        <h1 class="mb-2 mb-lg-0">Performance Monitoring Using JMeter + InfluxDB + Grafana</h1>
+        <nav class="breadcrumbs">
+          <ol>
+            <li><a href="index.html">Home</a></li>
+            <li class="current">Performance Monitoring Using JMeter + InfluxDB + Grafana</li>
+          </ol>
+        </nav>
+      </div>
+    </div><!-- End Page Title -->
+
+    <!-- Portfolio Details Section -->
+    <section id="portfolio-details" class="portfolio-details section">
+
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+        <div class="row gy-4">
+
+          <div class="col-lg-8 align-items-center ">
+            <div class="portfolio-details-slider swiper init-swiper">
+
+              <script type="application/json" class="swiper-config">
+                {
+                  "loop": true,
+                  "speed": 600,
+                  "autoplay": {
+                    "delay": 5000
+                  },
+                  "slidesPerView": "auto",
+                  "pagination": {
+                    "el": ".swiper-pagination",
+                    "type": "bullets",
+                    "clickable": true
+                  }
+                }
+              </script>
+
+              <div class="swiper-wrapper align-items-center">
+
+                <div class="swiper-slide">
+                  <img src="assets/img/portfolio/project3/cover.png" alt="" style="border-radius: 30px;">
+                </div>
+
+
+              </div>
+              <div class="swiper-pagination"></div>
+            </div>
+            <div class="container d-flex flex-column align-items-center justify-content-center">
+              <a href="#article"><button class="arrow-button">See more<span class="arrow"></span></button></a>
+              
+            </div>     
+          </div>
+
+
+
+          <div class="col-lg-4">
+            <div class="portfolio-info" data-aos="fade-up" data-aos-delay="200" style="background-color: rgba(0, 0, 0, 0.383); border-radius: 20px;">
+              <h3>Project information</h3>
+              <ul>
+                <li><strong>Tech Stack</strong>: JMeter | InfluxDB | Grafana</li>
+                <li><strong>Linkedin Artical</strong>: <a href="https://www.linkedin.com/pulse/copy-how-set-up-jmeter-influxdb-grafana-locally-ramesh-lakmal-b9wsc/?trackingId=bm%2Fr8YPxQi2JYtziRfXZXg%3D%3D" target="_blank">Performance Monitoring Using JMeter + InfluxDB + Grafana</a></li>
+              </ul>
+            </div>
+            <div class="portfolio-description" data-aos="fade-up" data-aos-delay="300">
+                <p>I recently wrote an article on how to set up a basic integration of JMeter, InfluxDB, and Grafana to monitor performance test data in real-time. This setup provides a simple yet powerful way to visualize metrics 📊 and gain insights into application performance 🚀. </p>
+
+                    Here’s what the process involved: 
+                    <ul>
+                        <li style="list-style-type: none;">🔹 Configuring JMeter to send test data to InfluxDB using a backend listener. </li>
+                        <li style="list-style-type: none;">🔹 Setting up InfluxDB to store test metrics 💾. </li>
+                        <li style="list-style-type: none;">🔹 Connecting Grafana to InfluxDB and creating dashboards to display the data 📈. </li>
+                    </ul>
+                    
+                    <p>
+                        While this is a foundational setup, it opens up endless possibilities for customization and scaling based on specific testing needs. 
+                    
+                        I hope this article helps you take the first steps toward creating powerful visualizations for your performance test data. With the right tools 
+                        🛠️ and a bit of experimentation, you can unlock valuable insights and make informed decisions. 
+                    </p>
+                    
+                    
+                    ✨ Happy testing! ✨
+            </div>
+          </div>
+          <div class="p-4" id="article">
+
+            <div class="container my-4">
+                <h1><b>How to Set Up JMeter, InfluxDB, and Grafana Locally for Performance Monitoring</b></h1>
+                <br><br>
+                <h2>Introduction</h2>
+                <p>When it comes to performance testing, it’s not just about running the tests—it’s also about understanding the results. That’s where data visualization comes in. Instead of sifting through raw numbers, you can use dashboards to see your test results in real-time and spot trends or issues easily.</p>
+                <p>In this article, I’ll show you how to take your JMeter performance test results and bring them to life in a Grafana dashboard. To do this, we’ll use InfluxDB as the database to store your test data and Grafana to create beautiful, interactive visualizations.</p>
+                <p>Whether you’re new to performance testing or just looking to improve your reporting, this step-by-step guide will help you set up everything you need in a local environment. By the end, you’ll have a working setup that lets you monitor and analyze your test results like a pro!</p>
+                
+                <hr><br>
+    
+                <h2>1. Prerequisites</h2>
+                <p>Before we get started, make sure you've downloaded JMeter and have a sample JMeter test script ready</p>
+                <h3>1.1 JMeter installation and create a test script</h3>
+                <ul>
+                  <li>
+                    <a href="https://jmeter.apache.org/download_jmeter.cgi">Download</a> JMeter and extract it to a location of your choice
+                  </li><br>
+                </ul>
+
+
+                <div class="row justify-content-center">
+                  <div class="col-12 col-md-8">
+                    <img src="assets/img/portfolio/project3/jmeterdownload.png" class="img-fluid rounded shadow" alt="JMeter Download">
+                  </div>
+                </div>
+
+
+                <br>
+
+                <ul>
+                    <li>Create a sample JMeter test script </li>
+                    <p><a href="https://github.com/rameshlakmal/Jmeter-githubActions-influxdb-grafana">This GitHub repository</a> contains sample test scripts for creating an employee in <a href="https://opensource-demo.orangehrmlive.com/web/index.php/auth/login">OrangeHRM demo website</a></p>
+                    <hr><br>
+    
+                    <h1>2. Setting up the environment</h1><br>
+                    <h2>2.1 Installing InfluxDB</h2><br>
+                    <li>Go to the <a href="https://www.influxdata.com/downloads/">InfluxDB download page</a></li>
+                    <li>Select the version and platform you want to download</li>
+                    <li>Copy that installation command and execute it using PowerShell it will download influxDB and install in the <i>"C:\Program Files\InfluxData\influxdb\"</i>  directory</li>
+                    <br>
+                </ul>
+
+
+                <div class="row justify-content-center">
+                    <div class="col-12 col-md-8">
+                      <img src="assets/img/portfolio/project3/InfluxDownload.png" class="img-fluid rounded shadow" alt="JMeter Download">
+                    </div>
+                </div><br>
+
+                <p>or else you can <a href="https://docs.influxdata.com/influxdb/v2/install/?t=Windows+Powershell#set-up-influxdb">download separately</a> and extract it <i>"C:\Program Files\InfluxData\"</i> </p>
+                <ul>
+                    <li>Go to the location where InfluxDB is extracted and run the executable file using Command Prompt. Once executed, it will display the port numbers to access InfluxDB locally</li>
+                    <br>
+                </ul>
+
+
+                <div class="row justify-content-center">
+                    <div class="col-12 col-md-8">
+                      <img src="assets/img/portfolio/project3/influxportnumber.png" class="img-fluid rounded shadow" alt="JMeter Download">
+                    </div>
+                </div><br>
+                <ul>        
+                    <li>Open your browser navigate to <a href="http://localhost:8086">http://localhost:8086</a> </li>
+                    <li>If you are accessing the InfluxDB web interface for the first time, it will prompt you to set up your initial user. Once the setup is complete, an API token will be generated, or you can create your own API token later and stored securely for future us.</li>
+                    
+                </ul>
+
+                
+                <br>
+                <div class="row justify-content-center">
+                    <div class="col-12 col-md-8">
+                      <img src="assets/img/portfolio/project3/inital user.png" class="img-fluid rounded shadow" alt="JMeter Download">
+                    </div>
+                </div>
+                <br>
+
+                <ul>
+                    <li>After clicking the 'Continue' button, you will be redirected to the final step. In this step, click 'Quick Start' to navigate to the InfluxDB dashboard.</li>
+                </ul>
+
+
+
+                <div class="container my-4">
+                    <div class="row justify-content-center">
+                      <div class="col-12 col-md-8">
+                        <!-- Video Container -->
+                        <div class="ratio ratio-16x9">
+                          <iframe 
+                            src="https://player.vimeo.com/video/1040492567?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;portrait=0&amp;title=1&amp;byline=0" 
+                            frameborder="0" 
+                            allow="autoplay; fullscreen; picture-in-picture; clipboard-write" title="acess influed">
+                          </iframe>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <hr>
+
+                  <h2>2.2 Installing Grafana</h2>
+                  <br>
+                  <ul>
+                    <li>Navigate to <a href="https://grafana.com/grafana/download?platform=windows">Grafana Download page</a></li>
+                    <li>Select platform you want to download</li>
+                    <li>Download Grafana installer and install the setup</li>
+                  </ul>
+                  
+                  <br>
+                  <div class="row justify-content-center">
+                      <div class="col-12 col-md-8">
+                        <img src="assets/img/portfolio/project3/grafanadownload.png" class="img-fluid rounded shadow" alt="JMeter Download">
+                      </div>
+                  </div>
+                  <br>
+
+                  <ul>
+                    <li>Once you finish installation Grafana will be already running as a service</li>
+                    <li>Open browser and navigate to <a href="http://localhost:3000">http://localhost:3000</a></li>
+                    <li>Enter "admin" for both username and password</li>
+                    <li>Click "Login" button you will navigate to home page</li>
+                </ul>
+
+                <div class="container my-4">
+                    <div class="row justify-content-center">
+                      <div class="col-12 col-md-8">
+                        <!-- Video Container -->
+                        <div class="ratio ratio-16x9">
+                          <iframe 
+                            src="https://player.vimeo.com/video/1040498278?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;portrait=0&amp;title=1&amp;byline=0" 
+                            frameborder="0" 
+                            allow="autoplay; fullscreen; picture-in-picture; clipboard-write" title="acess influed">
+                          </iframe>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <hr>
+
+        
+                <h1>3. Configuring JMeter to Send Data to InfluxDB</h1><br>
+                <ul>
+                    <li>Open JMeter with sample test script or create a new test script</li>
+                </ul>
+
+                
+                
+                <blockquote class="blockquote">
+                      <p>Tip: If you're creating a new test script, use the BlazeMeter Auto Correlation Recording Plugin. It will identify dynamic values and handle them automatically.</p>
+                </blockquote>
+
+                <ul>
+                    <li>Add backend listener to the thread group and need to some configurations to the backend listener</li>
+                </ul>
+
+                <ol >
+                    <li class="mb-2">Change "Backend Listener implementation" to 3rd option in the list which is <i>"org.apache.jmeter.visualizers.backend.influxdb.InfluxdbBackendListenerClient"</i> </li>
+                    <li class="mb-2">Update "indluxdbUrl" to <a href="https://docs.influxdata.com/influxdb/v2/get-started/write/?t=InfluxDB+API">influxdb write API</a>("POST <a href="http://localhost:8086/api/v2/write">http://localhost:8086/api/v2/write</a>)</li> 
+                    <li class="mb-2">Provide the organization name and bucket name created during the InfluxDB initial setup as query parameters to the API <a href="http://localhost:8086/api/v2/write?org=[organization_name]&bucket=[bucket_name]">http://localhost:8086/api/v2/write?org=[organization_name]&bucket=[bucket_name]</a> e.g.: <a href="http://localhost:8086/api/v2/write?org=JIG&bucket=jmeter">http://localhost:8086/api/v2/write?org=JIG&bucket=jmeter</a> </li>
+                    <li class="mb-2">Add API token to the backend listener that you stored earlier during the InfluxDB initial setup as an additional parameter</li>
+                    <li class="mb-2">Click the "Add" button located at the bottom of the Backend Listener to create a new field.</li>
+                    <li class="mb-2">In the newly added field, enter "influxdbToken" as the name. Note that this variable name is case-sensitive, so ensure it is entered exactly as shown.</li>
+                    <li class="mb-2">Provide your API token as the value for this field and save</li>
+                    <li class="mb-2">You can optionally change the application name and test title, but it’s not mandatory</li>
+                    <li class="mb-2">Run your test</li>
+                </ol>
+
+                <div class="container my-4">
+                    <div class="row justify-content-center">
+                      <div class="col-12 col-md-8">
+                        <!-- Video Container -->
+                        <div class="ratio ratio-16x9">
+                          <iframe 
+                            src="https://player.vimeo.com/video/1040504941?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;portrait=0&amp;title=1&amp;byline=0" 
+                            frameborder="0" 
+                            allow="autoplay; fullscreen; picture-in-picture; clipboard-write" title="acess influed">
+                          </iframe>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <ul>
+                    <li>Go to InfluxDB and navigate to "Data Explorer"</li>
+                    <li>Select your bucket </li>
+                    <li>"Select 'jmeter' under the measurement filter. If you changed the default measurement name in the Backend Listener, the updated name will appear here.</li>
+                    <li>The next field will show all the data being sent from JMeter to InfluxDB.</li>
+                    <li>Select the data you want to display and submit it. InfluxDB will then present the selected data as a graph</li>
+                  </ul>
+
+
+                  <div class="container my-4">
+                    <div class="row justify-content-center">
+                      <div class="col-12 col-md-8">
+                        <!-- Video Container -->
+                        <div class="ratio ratio-16x9">
+                          <iframe 
+                            src="https://player.vimeo.com/video/1040507025?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;portrait=0&amp;title=1&amp;byline=0" 
+                            frameborder="0" 
+                            allow="autoplay; fullscreen; picture-in-picture; clipboard-write" title="acess influed">
+                          </iframe>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+
+                <blockquote class="blockquote">
+                    <p>What is happening here is when you add a Backend Listener in JMeter and configure it with the InfluxDB API and token, JMeter sends performance metrics to InfluxDB during the test. InfluxDB stores this data, and you can later visualize it in tools like Grafana for analysis.</p>
+                </blockquote>
+
+                <hr><br>
+
+
+                <h1>4. Setting Up Grafana to Visualize JMeter Data</h1><br>
+                <h2>4.1 Connecting Grafana to InfluxDB</h2><br>
+
+
+                <ul>
+                    <li>Navigate to Grafana</li>
+                    <li>Go to "Conncetions -> Data Sources" and click "Add New Data Source Button"</li>
+                    <li>Select 'InfluxDB' as the data source, as the data will be retrieved from InfluxDB.</li>
+                    <li>Select query language as "Flux"</li>
+                </ul>
+
+                <blockquote class="blockquote">
+                    <p>Flux is a data scripting and query language by InfluxData for InfluxDB 2.x, designed for advanced data analysis and integration with various sources. It uses a functional approach with powerful operators and functions for time-series data transformations, analytics, and more</p>
+                </blockquote>
+
+                <ul>
+                    <li>Set the HTTP URL to the InfluxDB address, usually http://localhost:8086. If you're using Docker, enter the container's IP address. For secured URLs, enable 'Basic Auth' and provide the username and password.</li>
+                    <li>Under "InfluxDB Details" section give you're organization name, bucket name and token</li>
+                    <li>Click "save" button if the connection is successful a success message will display</li>
+                </ul>
+
+                <div class="container my-4">
+                    <div class="row justify-content-center">
+                      <div class="col-12 col-md-8">
+                        <!-- Video Container -->
+                        <div class="ratio ratio-16x9">
+                          <iframe 
+                            src="https://player.vimeo.com/video/1040509508?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;portrait=0&amp;title=1&amp;byline=0" 
+                            frameborder="0" 
+                            allow="autoplay; fullscreen; picture-in-picture; clipboard-write" title="acess influed">
+                          </iframe>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <p>After successfully connecting InfluxDB to Grafana, you can visualize the data stored in InfluxDB.</p>
+                  <hr>
+                  <br>
+                  <h2>4.2 Create Custom Dashboards</h2><br>
+
+                  <ul>
+                    <li>Navigate to "Explore"</li>
+                    <li>Select your data source using the dropdown in the top of the screen</li>
+                    <li>Click on 'Sample Query' and select 'Simple Query'; this will display a simple Flux query that retrieves data from a specific measurement and field within the last hour from the given InfluxDB bucket</li>
+                  </ul>
+
+                  <br>
+                  <div class="row justify-content-center">
+                      <div class="col-12 col-md-8">
+                        <img src="assets/img/portfolio/project3/grafanaquery.png" class="img-fluid rounded shadow" alt="JMeter Download">
+                      </div>
+                  </div>
+                  <br>
+
+                  <ul>
+                    <li>Change the bucket name and measurement name (it should be 'jmeter' if not modified in the JMeter backend listener), then specify the field or fields you want to retrieve from InfluxDB.</li>
+                    <li>After updating the query, run your test plan and the query. The selected field data will be displayed as a real-time graph.</li>
+
+                  </ul>
+
+                  <div class="container my-4">
+                    <div class="row justify-content-center">
+                      <div class="col-12 col-md-8">
+                        <!-- Video Container -->
+                        <div class="ratio ratio-16x9">
+                          <iframe 
+                            src="https://player.vimeo.com/video/1040705234?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;portrait=0&amp;title=1&amp;byline=0" 
+                            frameborder="0" 
+                            allow="autoplay; fullscreen; picture-in-picture; clipboard-write" title="acess influed">
+                          </iframe>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <ul>
+                    <li>Save this graph to the dashboard by clicking the 'Add to Dashboard' button. You can view the saved dashboards on the dashboard screen and add more graphs to the same dashboard.</li>
+                  </ul>
+
+                  <div class="container my-4">
+                    <div class="row justify-content-center">
+                      <div class="col-12 col-md-8">
+                        <!-- Video Container -->
+                        <div class="ratio ratio-16x9">
+                          <iframe 
+                            src="https://player.vimeo.com/video/1040706011?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;portrait=0&amp;title=1&amp;byline=0" 
+                            frameborder="0" 
+                            allow="autoplay; fullscreen; picture-in-picture; clipboard-write" title="acess influed">
+                          </iframe>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <hr><br>
+                  <h2>4.3 Create Dashboards Using Dashboard Templates</h2><br>
+
+                  <ul>
+                    <li>Navigate to <a href="https://grafana.com/grafana/dashboards/">Grafana Dashboards</a></li>
+                    <li>Select a dashboard to display JMeter performance metrics</li>
+                    <li>Copy the dashboard ID or download the JSON file; you can import the dashboard using either option</li>
+                    <li>Navigate back to Grafana </li>
+                    <li>Go to "Dashboards" and click "Import" button</li>
+                    <li>Provide dashboard ID or upload the JSON file then click "Load" button</li>
+                    <li>In this step update the dashboard name, folder path (if applicable), select the data source, and click the 'Import' button to successfully import the dashboard</li>
+
+                  </ul>
+
+
+                  <div class="container my-4">
+                    <div class="row justify-content-center">
+                      <div class="col-12 col-md-8">
+                        <!-- Video Container -->
+                        <div class="ratio ratio-16x9">
+                          <iframe 
+                            src="https://player.vimeo.com/video/1040708154?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;portrait=0&amp;title=1&amp;byline=0" 
+                            frameborder="0" 
+                            allow="autoplay; fullscreen; picture-in-picture; clipboard-write" title="acess influed">
+                          </iframe>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <hr>
+                  <br>
+
+                  <h1>5. Summary</h1>
+                  <br>
+                  <p>This article covered the basics of setting up a pipeline to visualize test data using JMeter, InfluxDB, and Grafana. While this is a foundational setup, it opens the door to powerful insights by transforming raw performance metrics into visual, actionable data.
+
+                    Feel free to explore further by tweaking queries, adding more complex graphs. Customizing dashboards and experimenting with Flux queries can help you gain deeper insights tailored to your needs.
+                    
+                    In the next article, we’ll take this a step further, diving into advanced configurations. This is just the beginning—stay curious and keep experimenting. <br></p>
+
+                    <hr>
+                    <br>
+
+                  <h1>6. Reference </h1><br>
+                  <ul>
+                    <li><a href="https://grafana.com/grafana/dashboards/?search=jmeter">https://grafana.com/grafana/dashboards/?search=jmeter</a></li>
+                    <li><a href="https://grafana.com/docs/grafana/latest/getting-started/get-started-grafana-influxdb/">https://grafana.com/docs/grafana/latest/getting-started/get-started-grafana-influxdb/</a></li>
+                    <li><a href="https://jmeter.apache.org/usermanual/realtime-results.html">https://jmeter.apache.org/usermanual/realtime-results.html</a></li>
+                    <li><a href="https://docs.influxdata.com/flux/v0/get-started/">https://docs.influxdata.com/flux/v0/get-started/</a></li>
+                  </ul><br><br>
+
+                  <h2><p class="text-center">💫 Happy testing!💫</p></h2>
+                  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+                <!-- <br>
+                <div class="row justify-content-center">
+                    <div class="col-12 col-md-8">
+                      <video src="assets/img/portfolio/project3/acess influed.mp4" class="img-fluid rounded shadow" alt="JMeter Download">
+                    </div>
+                </div>
+                <br> -->
+
+
+            </ul>
+              </div>
+              
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section><!-- /Portfolio Details Section -->
+
+  </main>
+
+
+
+  <!-- Scroll Top -->
+  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Preloader -->
+  <div id="preloader"></div>
+
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+  <script src="assets/vendor/aos/aos.js"></script>
+  <script src="assets/vendor/typed.js/typed.umd.js"></script>
+  <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
+  <script src="assets/vendor/waypoints/noframework.waypoints.js"></script>
+  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
+  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+
+  <!-- Main JS File -->
+  <script src="assets/js/main.js"></script>
+
+</body>
+
+</html>
