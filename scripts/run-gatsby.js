@@ -1,26 +1,42 @@
 const { spawn } = require('child_process');
 const path = require('path');
 
-const gatsbyBin = path.join(__dirname, '..', 'node_modules', '.bin', 'gatsby.cmd');
-const args = ['/c', gatsbyBin, ...process.argv.slice(2)];
+const isWindows = process.platform === 'win32';
+const gatsbyBin = path.join(
+  __dirname,
+  '..',
+  'node_modules',
+  '.bin',
+  isWindows ? 'gatsby.cmd' : 'gatsby',
+);
 
-const child = spawn('cmd.exe', args, {
-  stdio: 'inherit',
-  shell: false,
-  env: {
-    ...process.env,
-    NODE_OPTIONS: [
-      process.env.NODE_OPTIONS,
-      '--openssl-legacy-provider',
-      '--no-deprecation',
-      '--require',
-      './scripts/node-preload.js',
-    ]
-      .filter(Boolean)
-      .join(' '),
-    GATSBY_TELEMETRY_DISABLED: '1',
-  },
-});
+const gatsbyArgs = process.argv.slice(2);
+
+const env = {
+  ...process.env,
+  NODE_OPTIONS: [
+    process.env.NODE_OPTIONS,
+    '--openssl-legacy-provider',
+    '--no-deprecation',
+    '--require',
+    './scripts/node-preload.js',
+  ]
+    .filter(Boolean)
+    .join(' '),
+  GATSBY_TELEMETRY_DISABLED: '1',
+};
+
+const child = isWindows
+  ? spawn('cmd.exe', ['/c', gatsbyBin, ...gatsbyArgs], {
+      stdio: 'inherit',
+      shell: false,
+      env,
+    })
+  : spawn(gatsbyBin, gatsbyArgs, {
+      stdio: 'inherit',
+      shell: false,
+      env,
+    });
 
 child.on('exit', code => {
   process.exit(code ?? 0);
