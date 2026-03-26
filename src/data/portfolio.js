@@ -7,7 +7,7 @@ import project6Cover from '../images/project6/cover.png';
 import project7Cover from '../images/project7/cover.png';
 
 export const resumeUrl =
-  'https://drive.google.com/file/d/1OB1FyuWJYlPgwVsRxMYXm923aiZ8PNlY/view?usp=sharing';
+  'https://drive.google.com/file/d/1IbW5OoP16tQTcJx3TvE7ZWC4Vy___Axi/view?usp=sharing';
 
 export const person = {
   name: 'Ramesh Lakmal',
