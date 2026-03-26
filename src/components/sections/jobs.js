@@ -97,16 +97,13 @@ const StyledTabList = styled.div`
   list-style: none;
 
   @media (max-width: 600px) {
-    display: flex;
-    overflow-x: auto;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
     width: 100%;
-    padding: 0 0 8px;
+    padding: 0;
     margin-left: 0;
     margin-bottom: 30px;
-    scrollbar-width: thin;
-  }
-  @media (max-width: 480px) {
-    padding-bottom: 6px;
   }
 
   li {
@@ -161,12 +158,15 @@ const StyledTabButton = styled.button`
     padding: 0 15px 2px;
   }
   @media (max-width: 600px) {
-    ${({ theme }) => theme.mixins.flexCenter};
-    min-width: 120px;
-    padding: 0 15px;
-    border-left: 0;
-    border-bottom: 2px solid var(--lightest-navy);
-    text-align: center;
+    justify-content: flex-start;
+    align-items: flex-start;
+    min-height: 58px;
+    padding: 14px 16px;
+    border: 1px solid var(--lightest-navy);
+    border-radius: var(--border-radius);
+    text-align: left;
+    white-space: normal;
+    line-height: 1.5;
   }
 
   &:hover,
@@ -191,13 +191,7 @@ const StyledHighlight = styled.div`
   transition: transform 360ms var(--easing);
 
   @media (max-width: 600px) {
-    top: auto;
-    bottom: 0;
-    width: 100%;
-    max-width: var(--tab-width);
-    height: 2px;
-    margin-left: 0;
-    transform: translateX(calc(${({ activeTabId }) => activeTabId} * var(--tab-width)));
+    display: none;
   }
 `;
 

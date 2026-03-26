@@ -18,19 +18,33 @@ const StyledSocialLinks = styled.div`
   @media (max-width: 768px) {
     display: block;
     width: 100%;
-    max-width: 270px;
+    max-width: 220px;
     margin: 0 auto 10px;
     color: var(--light-slate);
   }
 
   ul {
-    ${({ theme }) => theme.mixins.flexBetween};
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 14px;
     padding: 0;
     margin: 0;
     list-style: none;
 
     a {
-      padding: 10px;
+      ${({ theme }) => theme.mixins.flexCenter};
+      width: 44px;
+      height: 44px;
+      border-radius: 999px;
+      padding: 0;
+      transition: var(--transition);
+
+      &:hover,
+      &:focus-visible {
+        background: rgba(var(--accent-rgb), 0.12);
+      }
+
       svg {
         width: 20px;
         height: 20px;
