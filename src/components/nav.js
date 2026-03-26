@@ -29,8 +29,10 @@ const StyledNavShell = styled.nav`
   @media (max-width: 768px) {
     left: 50%;
     top: auto;
-    bottom: 16px;
+    bottom: 12px;
     transform: translateX(-50%);
+    width: calc(100vw - 16px);
+    max-width: 520px;
   }
 `;
 
@@ -46,9 +48,15 @@ const StyledDock = styled.div`
   @media (max-width: 768px) {
     flex-direction: row;
     align-items: center;
-    width: min(92vw, 520px);
+    justify-content: space-between;
+    width: 100%;
     border-radius: 999px;
-    padding: 10px 12px;
+    padding: 8px 10px;
+  }
+
+  @media (max-width: 420px) {
+    gap: 8px;
+    padding: 7px 8px;
   }
 `;
 
@@ -59,7 +67,9 @@ const StyledCluster = styled.div`
 
   @media (max-width: 768px) {
     flex-direction: row;
-    gap: 8px;
+    flex: 1 1 auto;
+    justify-content: space-between;
+    gap: 6px;
   }
 `;
 
@@ -71,7 +81,7 @@ const StyledDivider = styled.div`
 
   @media (max-width: 768px) {
     width: 1px;
-    height: 36px;
+    height: 32px;
   }
 `;
 
@@ -224,6 +234,25 @@ const StyledItem = styled.a`
 
   @media (max-width: 768px) {
     border-radius: 999px;
+    width: 40px;
+    height: 40px;
+  }
+
+  @media (max-width: 420px) {
+    width: 36px;
+    height: 36px;
+
+    .icon {
+      width: 19px;
+      height: 19px;
+    }
+  }
+
+  @media (max-width: 380px) {
+    &[data-tip]:after,
+    &[data-tip]:before {
+      display: none;
+    }
   }
 `;
 

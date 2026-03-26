@@ -28,13 +28,17 @@ const StyledProjectsSection = styled.section`
   .projects-grid {
     ${({ theme }) => theme.mixins.resetList};
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
     grid-gap: 15px;
     position: relative;
     margin-top: 50px;
 
     @media (max-width: 1080px) {
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
+    }
+
+    @media (max-width: 480px) {
+      margin-top: 36px;
     }
   }
 
@@ -150,6 +154,10 @@ const StyledProject = styled.li`
     color: var(--lightest-slate);
     font-size: var(--fz-xxl);
 
+    @media (max-width: 480px) {
+      font-size: 20px;
+    }
+
     a {
       position: static;
 
@@ -169,6 +177,7 @@ const StyledProject = styled.li`
   .project-description {
     color: var(--light-slate);
     font-size: 17px;
+    overflow-wrap: anywhere;
   }
 
   .project-tech-list {
@@ -184,6 +193,7 @@ const StyledProject = styled.li`
       font-family: var(--font-mono);
       font-size: var(--fz-xxs);
       line-height: 1.75;
+      overflow-wrap: anywhere;
 
       &:not(:last-of-type) {
         margin-right: 15px;

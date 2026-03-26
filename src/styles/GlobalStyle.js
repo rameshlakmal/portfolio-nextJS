@@ -114,10 +114,10 @@ const GlobalStyle = createGlobalStyle`
       padding: 200px 100px;
     }
     @media (max-width: 768px) {
-      padding: 120px 50px 140px;
+      padding: 110px 40px 140px;
     }
     @media (max-width: 480px) {
-      padding: 110px 25px 140px;
+      padding: 100px 20px 132px;
     }
 
     &.fillHeight {
@@ -129,10 +129,10 @@ const GlobalStyle = createGlobalStyle`
         padding: 0 100px 180px;
       }
       @media (max-width: 768px) {
-        padding: 0 50px 160px;
+        padding: 0 40px 160px;
       }
       @media (max-width: 480px) {
-        padding: 0 25px 150px;
+        padding: 0 20px 144px;
       }
     }
   }
@@ -221,6 +221,17 @@ const GlobalStyle = createGlobalStyle`
       }
       @media (max-width: 600px) {
         margin-left: 10px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 8px 0;
+      white-space: normal;
+
+      &:after {
+        margin-left: 0;
       }
     }
   }

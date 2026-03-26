@@ -12,6 +12,7 @@ const StyledJobsSection = styled.section`
 
   .view-tabs {
     display: inline-flex;
+    flex-wrap: wrap;
     gap: 10px;
     padding: 0;
     margin: 10px 0 30px;
@@ -98,32 +99,25 @@ const StyledTabList = styled.div`
   @media (max-width: 600px) {
     display: flex;
     overflow-x: auto;
-    width: calc(100% + 100px);
-    padding-left: 50px;
-    margin-left: -50px;
+    width: 100%;
+    padding: 0 0 8px;
+    margin-left: 0;
     margin-bottom: 30px;
+    scrollbar-width: thin;
   }
   @media (max-width: 480px) {
-    width: calc(100% + 50px);
-    padding-left: 25px;
-    margin-left: -25px;
+    padding-bottom: 6px;
   }
 
   li {
     &:first-of-type {
       @media (max-width: 600px) {
-        margin-left: 50px;
-      }
-      @media (max-width: 480px) {
-        margin-left: 25px;
+        margin-left: 0;
       }
     }
     &:last-of-type {
       @media (max-width: 600px) {
-        padding-right: 50px;
-      }
-      @media (max-width: 480px) {
-        padding-right: 25px;
+        padding-right: 0;
       }
     }
   }
@@ -202,11 +196,8 @@ const StyledHighlight = styled.div`
     width: 100%;
     max-width: var(--tab-width);
     height: 2px;
-    margin-left: 50px;
+    margin-left: 0;
     transform: translateX(calc(${({ activeTabId }) => activeTabId} * var(--tab-width)));
-  }
-  @media (max-width: 480px) {
-    margin-left: 25px;
   }
 `;
 
@@ -235,8 +226,17 @@ const StyledTabPanel = styled.div`
     font-weight: 500;
     line-height: 1.3;
 
+    @media (max-width: 480px) {
+      font-size: 20px;
+    }
+
     .company {
       color: var(--green);
+
+      @media (max-width: 480px) {
+        display: block;
+        margin-top: 4px;
+      }
     }
   }
 
@@ -253,11 +253,13 @@ const StyledTabPanel = styled.div`
     font-family: var(--font-mono);
     font-size: var(--fz-xxs);
     line-height: 1.4;
+    overflow-wrap: anywhere;
   }
 
   .related-links a {
     ${({ theme }) => theme.mixins.inlineLink};
     margin-right: 14px;
+    margin-bottom: 8px;
   }
 `;
 

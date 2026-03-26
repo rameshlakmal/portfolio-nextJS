@@ -35,7 +35,8 @@ const StyledText = styled.div`
       padding-left: 20px;
       font-family: var(--font-mono);
       font-size: var(--fz-xs);
-      white-space: nowrap;
+      white-space: normal;
+      overflow-wrap: anywhere;
 
       &:before {
         content: '▹';
@@ -54,7 +55,7 @@ const StyledPic = styled.div`
 
   @media (max-width: 768px) {
     margin: 50px auto 0;
-    width: 70%;
+    width: min(78vw, 300px);
   }
 
   .wrapper {

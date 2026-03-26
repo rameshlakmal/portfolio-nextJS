@@ -174,6 +174,10 @@ const StyledProject = styled.li`
         box-shadow: none;
       }
     }
+
+    p {
+      overflow-wrap: anywhere;
+    }
   }
 
   .project-tech-list {
@@ -190,7 +194,8 @@ const StyledProject = styled.li`
       color: var(--light-slate);
       font-family: var(--font-mono);
       font-size: var(--fz-xs);
-      white-space: nowrap;
+      white-space: normal;
+      overflow-wrap: anywhere;
     }
 
     @media (max-width: 768px) {
