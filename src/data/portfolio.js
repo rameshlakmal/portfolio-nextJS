@@ -5,6 +5,7 @@ import project4Cover from '../images/project4/cover.png';
 import project5Cover from '../images/project5/cover.png';
 import project6Cover from '../images/project6/cover.png';
 import project7Cover from '../images/project7/cover.png';
+import project8Cover from '../images/project8/cover.png';
 
 export const resumeUrl =
   'https://drive.google.com/file/d/1IbW5OoP16tQTcJx3TvE7ZWC4Vy___Axi/view?usp=sharing';
@@ -131,6 +132,17 @@ export const featuredProjects = [
 ];
 
 export const projects = [
+  {
+    date: '2026-04-14',
+    title: 'E2E Testing with Claude Agents',
+    cover: project8Cover,
+    description:
+      ' A five-stage pipeline walkthrough showing how structured AI agents and human review gates turn a web feature into a complete, traceable Playwright test suite — without a single selector written by hand',
+    tech: ['Playwright', 'Claude', 'Agentic testing'],
+    github: 'https://github.com/rameshlakmal/Agentic-Testing',
+    external:
+      'https://www.linkedin.com/pulse/setting-up-qa-workflow-playwright-github-actions-aio-tests-lakmal-kvscc',
+  },
   {
     date: '2025-11-20',
     title: 'QA Workflow with Playwright, GitHub Actions and AIO Tests',
