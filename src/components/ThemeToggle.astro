@@ -1,0 +1,170 @@
+---
+// Light/dark switch in the nav. Until the visitor uses it, the site follows
+// the device setting; after that, their choice is saved.
+import Icon from './Icon.astro';
+---
+
+<button
+  type="button"
+  class="theme-toggle"
+  role="switch"
+  aria-checked="true"
+  aria-label="Dark theme"
+  data-theme-toggle
+>
+  <span class="track" aria-hidden="true">
+    <span class="knob">
+      <span class="icon sun">
+        <Icon name="Sun" />
+      </span>
+      <span class="icon moon">
+        <Icon name="Moon" />
+      </span>
+    </span>
+  </span>
+</button>
+
+<script>
+  import { defaultDarkTheme, defaultLightTheme, storageKey } from '../styles/themes.js';
+
+  const root = document.documentElement;
+  const toggle = document.querySelector<HTMLButtonElement>('[data-theme-toggle]');
+  const isDark = () => root.dataset.theme !== defaultLightTheme;
+
+  const sync = () => toggle?.setAttribute('aria-checked', String(isDark()));
+
+  const saved = () => {
+    try {
+      return localStorage.getItem(storageKey);
+    } catch {
+      return null;
+    }
+  };
+
+  const apply = (id: string) => {
+    root.setAttribute('data-theme', id);
+    sync();
+  };
+
+  toggle?.addEventListener('click', () => {
+    const next = isDark() ? defaultLightTheme : defaultDarkTheme;
+    try {
+      localStorage.setItem(storageKey, next);
+    } catch {
+      // Storage can be blocked (private mode); the theme still applies for this visit.
+    }
+
+    // Spread the new theme out in a circle from the toggle.
+    if (!root.classList.contains('motion') || !('startViewTransition' in document)) {
+      apply(next);
+      return;
+    }
+    const { left, top, width, height } = toggle.getBoundingClientRect();
+    const x = left + width / 2;
+    const y = top + height / 2;
+    const radius = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
+    document
+      .startViewTransition(() => apply(next))
+      .ready.then(() => {
+        root.animate(
+          { clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${radius}px at ${x}px ${y}px)`] },
+          {
+            duration: 550,
+            easing: 'cubic-bezier(0.65, 0, 0.35, 1)',
+            pseudoElement: '::view-transition-new(root)',
+          },
+        );
+      });
+  });
+
+  // Follow the device setting while the visitor has not picked a theme.
+  window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', (e) => {
+    if (saved() !== defaultDarkTheme && saved() !== defaultLightTheme) {
+      apply(e.matches ? defaultLightTheme : defaultDarkTheme);
+    }
+  });
+
+  sync();
+</script>
+
+<style>
+  .theme-toggle {
+    display: flex;
+    align-items: center;
+    padding: 6px;
+    margin: -6px 0;
+    border-radius: 999px;
+    background: transparent;
+  }
+
+  .track {
+    position: relative;
+    display: block;
+    width: 52px;
+    height: 28px;
+    border: 1px solid var(--glass-border);
+    border-radius: 999px;
+    background: var(--light-navy);
+    transition:
+      border-color 0.25s ease,
+      box-shadow 0.25s ease;
+  }
+
+  .knob {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    display: grid;
+    place-items: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--green);
+    color: var(--on-accent);
+    box-shadow: var(--glow);
+    transition: transform 0.35s var(--easing);
+  }
+
+  .theme-toggle[aria-checked='true'] .knob {
+    transform: translateX(24px);
+  }
+
+  .icon {
+    grid-area: 1 / 1;
+    display: grid;
+    width: 14px;
+    height: 14px;
+    transition:
+      opacity 0.25s ease,
+      transform 0.35s var(--easing);
+  }
+
+  .icon :global(svg) {
+    width: 100%;
+    height: 100%;
+  }
+
+  .theme-toggle[aria-checked='true'] .sun,
+  .theme-toggle[aria-checked='false'] .moon {
+    opacity: 0;
+    transform: rotate(-90deg) scale(0.6);
+  }
+
+  .theme-toggle:hover .track,
+  .theme-toggle:focus-visible .track {
+    border-color: var(--green);
+    box-shadow: var(--glow);
+  }
+
+  .theme-toggle:focus-visible {
+    outline-offset: 0;
+    box-shadow: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .knob,
+    .icon {
+      transition: none;
+    }
+  }
+</style>

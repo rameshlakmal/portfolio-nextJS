@@ -1,0 +1,346 @@
+---
+// Compact project list with a large preview pane (desktop) or thumbnails
+// (phones). Used for the latest work on the home page.
+import { Image } from 'astro:assets';
+import HoverClip from './HoverClip.astro';
+import { describe, external } from '../utils/projects.js';
+
+interface Props {
+  projects: object[];
+  /** Heading level for project titles, so the page outline stays in order. */
+  headingLevel?: 'h2' | 'h3' | 'h4';
+}
+
+const { projects, headingLevel = 'h4' } = Astro.props;
+const Title = headingLevel;
+const rows = projects.map(describe);
+---
+
+<div class="project-index" data-project-index>
+  <div class="index">
+    <div class="list">
+      <ol class="rows reset-list" data-reveal-items>
+        {rows.map((row, i) => (
+          <li class="row" data-kinds={row.kinds.join(' ')} data-preview={i}>
+            <span class="year">{row.year}</span>
+            <div class="thumb" aria-hidden="true">
+              <Image src={row.cover} alt="" widths={[200, 400]} sizes="96px" />
+            </div>
+            <div class="main">
+              <Title class="row-title">
+                <a href={row.links[0].url} {...external(row.links[0].url)}>
+                  {row.title}
+                </a>
+              </Title>
+              <p class="description">{row.description}</p>
+              <p class="tech">{row.tech.join(', ')}</p>
+            </div>
+            <span class="links">
+              {row.links.map((link) => (
+                <a class="text-link" href={link.url} {...external(link.url)}>
+                  {link.label} <span aria-hidden="true">↗</span>
+                </a>
+              ))}
+            </span>
+          </li>
+        ))}
+      </ol>
+    </div>
+
+    <div class="preview" aria-hidden="true">
+      <div class="frame">
+        {rows.map((row, i) => (
+          <Image
+            src={row.cover}
+            alt=""
+            widths={[1200, 1600]}
+            sizes="(max-width: 1200px) 66vw, 780px"
+            quality={90}
+            class:list={['shot', { active: i === 0 }]}
+            data-shot={i}
+            loading="lazy"
+          />
+        ))}
+        {rows.map((row, i) => (
+          <HoverClip preview={row.preview} index={i} />
+        ))}
+      </div>
+      <div class="captions">
+        {rows.map((row, i) => (
+          <div class:list={['caption', { active: i === 0 }]} data-shot={i}>
+            <p class="caption-title">{row.title}</p>
+            <p class="caption-text">{row.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  import { playClip, stopClip, preloadWhenVisible } from '../utils/hoverClip';
+
+  document.querySelectorAll<HTMLElement>('[data-project-index]').forEach((root) => {
+    const rows = [...root.querySelectorAll<HTMLElement>('.row')];
+    const previews = [...root.querySelectorAll<HTMLElement>('[data-shot]')];
+    const clips = [...root.querySelectorAll<HTMLVideoElement>('[data-clip]')];
+    const list = root.querySelector<HTMLElement>('.list');
+    preloadWhenVisible(clips);
+
+    // Preview pane (image + caption, and the clip if there is one) follows
+    // the hovered or focused row.
+    const preview = (index: string) => {
+      previews.forEach((el) => el.classList.toggle('active', el.dataset.shot === index));
+      clips.forEach((clip) => (clip.dataset.clip === index ? playClip(clip) : stopClip(clip)));
+    };
+    rows.forEach((row) => {
+      const activate = () => preview(row.dataset.preview!);
+      row.addEventListener('pointerenter', activate);
+      row.addEventListener('focusin', activate);
+    });
+    // Stop the clip once the pointer leaves the list; the still image stays.
+    list?.addEventListener('pointerleave', () => clips.forEach(stopClip));
+  });
+</script>
+
+<style>
+  /* Index: compact list on the left, large sticky preview on the right. */
+  .index {
+    display: grid;
+    grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+    gap: 40px;
+    align-items: start;
+  }
+
+  .row {
+    position: relative;
+    display: grid;
+    grid-template-columns: 48px minmax(0, 1fr);
+    align-items: start;
+    gap: 8px 12px;
+    padding: 16px 12px;
+    border-top: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    transition: background-color 0.25s ease;
+  }
+
+  /* Accent bar on the active row. */
+  .row::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 12px;
+    bottom: 12px;
+    width: 2px;
+    background: var(--green);
+    box-shadow: var(--glow);
+    transform: scaleY(0);
+    transition: transform 0.3s var(--easing);
+  }
+
+  .row:hover,
+  .row:focus-within {
+    background-color: var(--light-navy);
+  }
+
+  .row:hover::before,
+  .row:focus-within::before {
+    transform: scaleY(1);
+  }
+
+  .year {
+    align-self: start;
+    padding-top: 4px;
+    color: var(--green);
+    font-family: var(--font-mono);
+    font-size: var(--fz-xs);
+  }
+
+  .thumb {
+    display: none;
+  }
+
+  .row-title {
+    margin: 0 0 4px;
+    font-size: var(--fz-lg);
+    line-height: 1.3;
+  }
+
+  /* The title link covers the whole row; the text links sit above it. */
+  .row-title a {
+    position: static;
+  }
+
+  .row-title a::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+
+  .row:hover .row-title a {
+    color: var(--green);
+  }
+
+  /* On desktop the description is shown in the preview pane instead;
+     it stays in the row for screen readers. */
+  .row .description {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  .row .tech {
+    margin: 0;
+    color: var(--slate);
+    font-family: var(--font-mono);
+    font-size: var(--fz-xxs);
+  }
+
+  .links {
+    grid-column: 2;
+    position: relative;
+    z-index: 1;
+    display: flex;
+    gap: 14px;
+    white-space: nowrap;
+  }
+
+  .preview {
+    position: sticky;
+    top: calc(var(--nav-scroll-height) + 24px);
+  }
+
+  .frame {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    background: var(--light-navy);
+  }
+
+  .shot {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transform: scale(1.03);
+    transition:
+      opacity 0.35s ease,
+      transform 0.5s var(--easing);
+  }
+
+  .shot.active {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Captions are stacked in one grid cell so the pane keeps a steady height. */
+  .captions {
+    display: grid;
+    margin-top: 18px;
+  }
+
+  .caption {
+    grid-area: 1 / 1;
+    opacity: 0;
+    transform: translateY(6px);
+    transition:
+      opacity 0.3s ease,
+      transform 0.3s var(--easing);
+  }
+
+  .caption.active {
+    opacity: 1;
+    transform: none;
+  }
+
+  .caption-title {
+    margin: 0 0 8px;
+    color: var(--lightest-slate);
+    font-size: var(--fz-xl);
+    font-weight: 600;
+  }
+
+  .caption-text {
+    margin: 0;
+    color: var(--slate);
+    font-size: var(--fz-md);
+    line-height: 1.5;
+  }
+
+  /* Tablet and phone: no preview pane; each row gets a thumbnail and a
+     short description. */
+  @media (max-width: 900px) {
+    .index {
+      grid-template-columns: 1fr;
+    }
+
+    .preview {
+      display: none;
+    }
+
+    .row {
+      grid-template-columns: 96px minmax(0, 1fr);
+      grid-template-areas:
+        'thumb main'
+        'thumb links';
+      align-items: start;
+      gap: 6px 14px;
+      padding: 16px 8px;
+    }
+
+    .year {
+      display: none;
+    }
+
+    .thumb {
+      grid-area: thumb;
+      display: block;
+      overflow: hidden;
+      border-radius: var(--radius-sm);
+      aspect-ratio: 16 / 9;
+      background: var(--light-navy);
+    }
+
+    .thumb :global(img) {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .main {
+      grid-area: main;
+    }
+
+    .links {
+      grid-area: links;
+    }
+
+    .row .description {
+      position: static;
+      width: auto;
+      height: auto;
+      clip: auto;
+      white-space: normal;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      margin: 0 0 6px;
+      font-size: var(--fz-sm);
+    }
+  }
+
+  @media (max-width: 480px) {
+    .row {
+      grid-template-columns: 80px minmax(0, 1fr);
+      gap: 6px 12px;
+    }
+  }
+</style>

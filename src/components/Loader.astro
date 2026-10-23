@@ -1,0 +1,110 @@
+---
+// First-visit loading screen: the logo mark draws itself, then fades away.
+// It only shows when the inline script in BaseLayout adds `is-loading` to
+// <html> (first page view of a session, motion allowed), so it never blocks
+// returning visitors, people using reduced motion or browsers without JS.
+---
+
+<div class="loader" aria-hidden="true">
+  <svg class="mark" viewBox="0 0 64 64">
+    <rect width="64" height="64" rx="14" class="tile"></rect>
+    <path class="letter" pathLength="1" d="M20 47V17h11.5a8.5 8.5 0 0 1 0 17H20"></path>
+    <path class="check" pathLength="1" d="M26 34l9 12 15-21"></path>
+  </svg>
+</div>
+
+<script is:inline>
+  (function () {
+    var root = document.documentElement;
+    if (!root.classList.contains('is-loading')) return;
+
+    var MIN_MS = 700; // long enough for the mark to finish drawing
+    var MAX_MS = 2500; // never hold the page longer than this
+    var start = Date.now();
+    var done = false;
+
+    function hide() {
+      if (done) return;
+      done = true;
+      root.classList.add('loader-out');
+      setTimeout(function () {
+        root.classList.remove('is-loading', 'loader-out');
+      }, 300);
+    }
+
+    function onReady() {
+      setTimeout(hide, Math.max(0, MIN_MS - (Date.now() - start)));
+    }
+
+    if (document.readyState === 'complete') onReady();
+    else window.addEventListener('load', onReady);
+    setTimeout(hide, MAX_MS);
+  })();
+</script>
+
+<style>
+  .loader {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: grid;
+    place-items: center;
+    background-color: var(--navy);
+    transition: opacity 0.3s ease;
+  }
+
+  :global(html.loader-out) .loader {
+    opacity: 0;
+  }
+
+  :global(html.is-loading) {
+    overflow: hidden;
+  }
+
+  .mark {
+    width: 72px;
+    height: 72px;
+  }
+
+  .tile {
+    fill: var(--light-navy);
+    stroke: var(--glass-border);
+    stroke-width: 1.5;
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: tile-in 0.25s ease-out both;
+  }
+
+  .letter,
+  .check {
+    fill: none;
+    stroke-width: 6.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+  }
+
+  .letter {
+    stroke: var(--lightest-slate);
+    animation: draw 0.4s var(--easing) 0.1s forwards;
+  }
+
+  .check {
+    stroke: var(--green);
+    animation: draw 0.25s var(--easing) 0.45s forwards;
+  }
+
+  @keyframes draw {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  @keyframes tile-in {
+    from {
+      opacity: 0;
+      transform: scale(0.94);
+    }
+  }
+</style>

@@ -1,0 +1,92 @@
+---
+import { hero } from '../../data/portfolio.js';
+---
+
+<section class="hero">
+  <p class="intro">{hero.intro}</p>
+  <h1 class="big-heading">{hero.headline}</h1>
+  <h2 class="big-heading">{hero.subheadline}</h2>
+  <p class="blurb">{hero.blurb}</p>
+  <a class="btn cta" href={hero.ctaUrl} target="_blank" rel="noopener noreferrer">
+    {hero.ctaLabel}
+  </a>
+</section>
+
+<style>
+  .hero {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    min-height: 100svh;
+    padding: calc(var(--nav-height) + 40px) 0 80px;
+  }
+
+  @media (max-width: 480px) {
+    .hero {
+      min-height: auto;
+      padding: calc(var(--nav-height) + 48px) 0 64px;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    /* `backwards`, not `both`: a finished animation that keeps holding its
+       end state would block the button's own hover transition. */
+    .hero > * {
+      animation: hero-in 500ms var(--easing) backwards;
+    }
+    .hero > :nth-child(2) {
+      animation-delay: 60ms;
+    }
+    .hero > :nth-child(3) {
+      animation-delay: 120ms;
+    }
+    .hero > :nth-child(4) {
+      animation-delay: 180ms;
+    }
+    .hero > :nth-child(5) {
+      animation-delay: 240ms;
+    }
+  }
+
+  @keyframes hero-in {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+  }
+
+  .intro {
+    margin: 0 0 24px 2px;
+    color: var(--green);
+    font-family: var(--font-mono);
+    font-size: clamp(var(--fz-sm), 5vw, var(--fz-md));
+  }
+
+  h2 {
+    margin-top: 8px;
+    color: var(--slate);
+    font-size: clamp(28px, 6vw, 64px);
+    line-height: 1.1;
+  }
+
+  .blurb {
+    margin: 24px 0 0;
+    max-width: 560px;
+    line-height: 1.5;
+  }
+
+  .cta {
+    margin-top: 44px;
+  }
+
+  @media (max-width: 480px) {
+    .intro {
+      margin: 0 0 16px 1px;
+    }
+    .cta {
+      margin-top: 32px;
+    }
+  }
+</style>

@@ -1,0 +1,58 @@
+---
+// The "R with a check mark" monogram. Same geometry as public/favicon.svg,
+// but drawn with theme colors so it follows the active theme.
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<svg class:list={['logo-mark', className]} viewBox="0 0 64 64" aria-hidden="true">
+  <rect width="64" height="64" rx="14" class="tile"></rect>
+  <path class="letter" d="M20 47V17h11.5a8.5 8.5 0 0 1 0 17H20"></path>
+  <path class="check" pathLength="1" d="M26 34l9 12 15-21"></path>
+</svg>
+
+<style>
+  .logo-mark {
+    display: block;
+  }
+  .tile {
+    fill: var(--light-navy);
+    stroke: var(--glass-border);
+    stroke-width: 1.5;
+  }
+  .letter,
+  .check {
+    fill: none;
+    stroke-width: 6.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .letter {
+    stroke: var(--lightest-slate);
+  }
+  .check {
+    stroke: var(--green);
+    stroke-dasharray: 1;
+    stroke-dashoffset: 0;
+  }
+
+  /* Redraw the check mark when the logo link is hovered or focused. */
+  :global(html.motion a:hover) > .logo-mark .check,
+  :global(html.motion a:focus-visible) > .logo-mark .check {
+    animation: redraw 0.45s var(--easing);
+  }
+
+  :global(a:hover) > .logo-mark .check,
+  :global(a:focus-visible) > .logo-mark .check {
+    filter: drop-shadow(0 0 4px rgba(var(--accent-rgb), 0.7));
+  }
+
+  @keyframes redraw {
+    from {
+      stroke-dashoffset: 1;
+    }
+  }
+</style>

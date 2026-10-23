@@ -1,0 +1,46 @@
+---
+// Muted looping clip laid over a project cover. Sources are only attached
+// when the clip first plays (see utils/hoverClip.ts). The parent must be
+// position: relative.
+interface Props {
+  preview: { webm?: string; mp4?: string } | null;
+  index?: number;
+}
+
+const { preview, index } = Astro.props;
+---
+
+{preview && (
+  <video
+    class="clip"
+    muted
+    loop
+    playsinline
+    disablepictureinpicture
+    preload="none"
+    aria-hidden="true"
+    tabindex="-1"
+    data-clip={index ?? ''}
+  >
+    {preview.webm && <source data-src={preview.webm} type="video/webm" />}
+    {preview.mp4 && <source data-src={preview.mp4} type="video/mp4" />}
+  </video>
+)}
+
+<style>
+  .clip {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  .clip.is-playing {
+    opacity: 1;
+  }
+</style>

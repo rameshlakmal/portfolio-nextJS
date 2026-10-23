@@ -1,0 +1,125 @@
+---
+import { Image } from 'astro:assets';
+import { about, person } from '../../data/portfolio.js';
+import photo from '../../images/hero-bg.jpeg';
+---
+
+<section id="about" class="about">
+  <h2 class="numbered-heading">About Me</h2>
+
+  <div class="inner">
+    <div class="text">
+      {about.paragraphs.map((paragraph) => (
+        <p>{paragraph}</p>
+      ))}
+      <p>Core expertise:</p>
+
+      <ul class="skills reset-list">
+        {about.skills.map((skill) => (
+          <li>{skill}</li>
+        ))}
+      </ul>
+    </div>
+
+    <div class="pic">
+      <div class="wrapper">
+        <Image
+          src={photo}
+          alt={person.name}
+          width={300}
+          widths={[300, 600]}
+          sizes="300px"
+          quality={80}
+        />
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about {
+    max-width: 900px;
+  }
+
+  .inner {
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+    gap: 50px;
+  }
+
+  @media (max-width: 768px) {
+    .inner {
+      display: block;
+    }
+  }
+
+  .skills {
+    margin: 20px 0 0;
+  }
+
+  .skills li {
+    position: relative;
+    margin-bottom: 10px;
+    padding-left: 20px;
+    font-family: var(--font-mono);
+    font-size: var(--fz-xs);
+    overflow-wrap: anywhere;
+  }
+
+  .skills li::before {
+    content: '▹';
+    position: absolute;
+    left: 0;
+    color: var(--green);
+    font-size: var(--fz-sm);
+    line-height: 12px;
+  }
+
+  .pic {
+    position: relative;
+    max-width: 300px;
+  }
+
+  @media (max-width: 768px) {
+    .pic {
+      margin: 50px auto 0;
+      width: min(78vw, 300px);
+    }
+  }
+
+  .wrapper {
+    position: relative;
+    display: block;
+    width: 100%;
+    border-radius: var(--radius-lg);
+    transition: var(--transition);
+  }
+
+  .wrapper :global(img) {
+    position: relative;
+    display: block;
+    width: 100%;
+    border-radius: var(--radius-lg);
+  }
+
+  .wrapper::after {
+    content: '';
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    border: 2px solid var(--green);
+    border-radius: var(--radius-lg);
+    transition: var(--transition);
+  }
+
+  .wrapper:hover {
+    transform: translate(-4px, -4px);
+  }
+
+  .wrapper:hover::after {
+    transform: translate(8px, 8px);
+  }
+</style>
