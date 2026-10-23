@@ -1,0 +1,49 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProjectGrid from '../../components/ProjectGrid.astro';
+import { featuredProjects, projects } from '../../data/portfolio.js';
+import { byNewest } from '../../utils/projects.js';
+
+const all = [...featuredProjects, ...projects].sort(byNewest);
+---
+
+<BaseLayout
+  title="Projects"
+  description="Test automation frameworks, QA tools and articles by Ramesh Lakmal."
+>
+  <main>
+    <section class="all-projects">
+      <a class="inline-link back" href="/#projects">
+        Back to home
+      </a>
+      <h1>Projects</h1>
+      <p class="lede">Frameworks, tools and write-ups from my QA work, newest first.</p>
+
+      <ProjectGrid projects={all} />
+    </section>
+  </main>
+</BaseLayout>
+
+<style>
+  .all-projects {
+    max-width: 1200px;
+    padding-top: 0;
+  }
+
+  .back {
+    margin-bottom: 24px;
+    font-family: var(--font-mono);
+    font-size: var(--fz-xs);
+  }
+
+  h1 {
+    margin: 0 0 12px;
+    font-size: clamp(36px, 6vw, 56px);
+  }
+
+  .lede {
+    margin: 0 0 32px;
+    max-width: 60ch;
+    color: var(--slate);
+  }
+</style>

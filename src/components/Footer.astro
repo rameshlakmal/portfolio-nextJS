@@ -1,0 +1,84 @@
+---
+import Icon from './Icon.astro';
+import { socialMedia, email } from '../config.js';
+import { person } from '../data/portfolio.js';
+---
+
+<footer>
+  <p>
+    {person.name} &middot; {new Date().getFullYear()}
+  </p>
+
+  <ul class="reset-list">
+    <li>
+      <a class="email" href={`mailto:${email}`}>
+        {email}
+      </a>
+    </li>
+    {socialMedia.map(({ name, url }) => (
+      <li>
+        <a href={url} target="_blank" rel="noopener noreferrer">
+          <Icon name={name} title={name === 'Linkedin' ? 'LinkedIn' : name} />
+        </a>
+      </li>
+    ))}
+  </ul>
+</footer>
+
+<style>
+  footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 24px 20px calc(24px + env(safe-area-inset-bottom));
+    border-top: 1px solid var(--glass-border);
+    color: var(--slate);
+    font-family: var(--font-mono);
+    font-size: var(--fz-xs);
+  }
+
+  @media (max-width: 600px) {
+    footer {
+      flex-direction: column-reverse;
+      justify-content: center;
+      text-align: center;
+    }
+  }
+
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+  }
+
+  a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 44px;
+    height: 44px;
+    border-radius: var(--radius-md);
+    color: var(--light-slate);
+  }
+
+  a:hover,
+  a:focus-visible {
+    color: var(--green);
+  }
+
+  a :global(svg) {
+    width: 20px;
+    height: 20px;
+  }
+
+  .email {
+    padding: 0 10px;
+  }
+</style>

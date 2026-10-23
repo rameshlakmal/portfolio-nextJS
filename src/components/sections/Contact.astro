@@ -1,0 +1,59 @@
+---
+import { email } from '../../config.js';
+import { person } from '../../data/portfolio.js';
+---
+
+<section id="contact" class="contact">
+  <h2 class="numbered-heading overline">Contact</h2>
+  <h2 class="title">Get in Touch</h2>
+
+  <p>
+    Open to QA engineering and automation opportunities, with a focus on improving product quality
+    and release confidence.
+  </p>
+  <p>Based in {person.location}.</p>
+
+  <a class="btn email" href={`mailto:${email}`}>
+    Email Me
+  </a>
+</section>
+
+<style>
+  .contact {
+    max-width: 600px;
+    margin: 0 auto 100px;
+    text-align: center;
+  }
+
+  @media (max-width: 768px) {
+    .contact {
+      margin: 0 auto 50px;
+    }
+  }
+
+  .overline {
+    display: block;
+    margin-bottom: 20px;
+    color: var(--green);
+    font-family: var(--font-mono);
+    font-size: var(--fz-md);
+    font-weight: 400;
+  }
+
+  .overline::before {
+    bottom: 0;
+    font-size: var(--fz-sm);
+  }
+
+  .overline::after {
+    display: none;
+  }
+
+  .title {
+    font-size: clamp(40px, 5vw, 60px);
+  }
+
+  .email {
+    margin-top: 50px;
+  }
+</style>

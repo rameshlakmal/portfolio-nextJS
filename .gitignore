@@ -2,10 +2,15 @@
 .cache
 node_modules
 yarn-error.log
-package-lock.json
+
 
 # Build directory
-/public
+/dist
+.astro
 .DS_Store
 
 .vscode/
+
+# Raw video exports for hover previews (compressed copies go to src/previews)
+raw-previews/
+scripts/project-scenes/out/

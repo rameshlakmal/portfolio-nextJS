@@ -1,0 +1,188 @@
+---
+import '../styles/global.css';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import Loader from '../components/Loader.astro';
+import { themes, defaultDarkTheme, defaultLightTheme, storageKey } from '../styles/themes.js';
+import { person } from '../data/portfolio.js';
+
+interface Props {
+  title?: string;
+  description?: string;
+  showLoader?: boolean;
+}
+
+const {
+  title,
+  description = 'Ramesh Lakmal is a QA engineer focused on manual testing, automation, and performance testing.',
+  showLoader = false,
+} = Astro.props;
+
+const pageTitle = title ? `${title} | ${person.name}` : person.name;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = new URL('/og.png', Astro.site);
+
+// One CSS rule per theme. The first theme is also the fallback when no
+// data-theme is set (e.g. JavaScript disabled).
+const palette = ({ scheme, colors: c }) => `
+  color-scheme: ${scheme};
+  --dark-navy: ${c.darkNavy};
+  --navy: ${c.navy};
+  --light-navy: ${c.lightNavy};
+  --lightest-navy: ${c.lightestNavy};
+  --navy-shadow: ${c.shadow};
+  --dark-slate: ${c.darkSlate};
+  --slate: ${c.slate};
+  --light-slate: ${c.lightSlate};
+  --lightest-slate: ${c.lightestSlate};
+  --white: ${c.white};
+  --green: ${c.accent};
+  --accent-rgb: ${c.accentRgb};
+  --on-accent: ${c.onAccent};
+  --green-tint: rgba(${c.accentRgb}, 0.12);
+  --glass-bg: ${c.surface};
+  --glass-border: ${c.border};
+  --glow: 0 0 18px -2px rgba(${c.accentRgb}, ${scheme === 'dark' ? 0.5 : 0.3});
+  --glow-text: 0 0 12px rgba(${c.accentRgb}, ${scheme === 'dark' ? 0.45 : 0.2});`;
+
+const themeCss = themes
+  .map((t, i) => `${i === 0 ? ':root, ' : ''}:root[data-theme='${t.id}'] {${palette(t)}}`)
+  .join('\n');
+
+// Runs before first paint: applies the saved (or system) theme, and turns on
+// the loading screen for the first page view of a session.
+const initScript = `(function () {
+  var root = document.documentElement;
+  var ids = ${JSON.stringify(themes.map((t) => t.id))};
+  var theme;
+  try { theme = localStorage.getItem('${storageKey}'); } catch (e) {}
+  if (ids.indexOf(theme) === -1) {
+    var light = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+    theme = light ? '${defaultLightTheme}' : '${defaultDarkTheme}';
+  }
+  root.setAttribute('data-theme', theme);
+  try {
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) root.classList.add('motion');
+  } catch (e) {}
+  ${
+    showLoader
+      ? `try {
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!reduce && !sessionStorage.getItem('seen')) {
+      sessionStorage.setItem('seen', '1');
+      root.classList.add('is-loading');
+    }
+  } catch (e) {}`
+      : ''
+  }
+})();`;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <link
+      rel="preload"
+      href="/fonts/Calibre-Regular.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="/fonts/Calibre-Semibold.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <meta name="google-site-verification" content="DCl7VAf9tcz6eD9gb67NfkNnJ1PKRNcg8qQiwpbx9Lk" />
+
+    <style is:inline set:html={themeCss}></style>
+    <script is:inline set:html={initScript}></script>
+  </head>
+  <body>
+    {showLoader && <Loader />}
+
+    <a class="skip-to-content" href="#content">
+      Skip to Content
+    </a>
+
+    <Nav />
+
+    <div id="content">
+      <slot />
+      <Footer />
+    </div>
+
+    <script>
+      // Reveal home-page content as it scrolls into view. Only runs when the
+      // inline script above added .motion (motion allowed, JS available), so
+      // without it everything is simply visible.
+      if (
+        document.documentElement.classList.contains('motion') &&
+        'IntersectionObserver' in window
+      ) {
+        const items: HTMLElement[] = [];
+        document.querySelectorAll('main section:not(.hero)').forEach((section) => {
+          [...section.children].forEach((child) => {
+            // Lists and two-column blocks reveal item by item, in a short cascade.
+            const list = child.querySelector('[data-reveal-items]');
+            const group = child.matches('ul, .inner')
+              ? [...child.children]
+              : list
+                ? [...list.children]
+                : [child];
+            group.forEach((el, i) => {
+              (el as HTMLElement).style.setProperty('--reveal-delay', `${(i % 3) * 90}ms`);
+              items.push(el as HTMLElement);
+            });
+          });
+        });
+
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (!entry.isIntersecting) return;
+              const el = entry.target;
+              el.classList.add('is-visible');
+              observer.unobserve(el);
+              // Once it has faded in, hand the element back its own transitions
+              // (buttons keep their usual hover animation).
+              const done = (e: Event) => {
+                if (e.target !== el) return;
+                el.classList.remove('reveal', 'is-visible');
+                el.removeEventListener('transitionend', done);
+              };
+              el.addEventListener('transitionend', done);
+            });
+          },
+          { rootMargin: '0px 0px -10% 0px' },
+        );
+
+        items.forEach((el) => {
+          el.classList.add('reveal');
+          observer.observe(el);
+        });
+      }
+    </script>
+  </body>
+</html>

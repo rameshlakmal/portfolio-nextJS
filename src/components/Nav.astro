@@ -1,0 +1,371 @@
+---
+import Logo from './Logo.astro';
+import ThemeToggle from './ThemeToggle.astro';
+import { navLinks } from '../config.js';
+import { person, resumeUrl } from '../data/portfolio.js';
+---
+
+<header class="site-header" data-header>
+  <nav aria-label="Main">
+    <a href="/" class="logo">
+      <Logo class="logo-icon" />
+      <span>{person.name}</span>
+    </a>
+
+    <div class="right">
+      <div class="links">
+        <ol class="reset-list">
+          {navLinks.map(({ name, url }) => (
+            <li>
+              <a href={url} data-section={url.split('#')[1]}>
+                {name}
+              </a>
+            </li>
+          ))}
+        </ol>
+        <a class="btn-sm" href={resumeUrl} target="_blank" rel="noopener noreferrer">
+          Resume
+        </a>
+      </div>
+
+      <ThemeToggle />
+
+      <button
+        type="button"
+        class="hamburger"
+        aria-label="Menu"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+        data-menu-button
+      >
+        <span class="bars" aria-hidden="true"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+
+<aside id="mobile-menu" class="drawer" inert data-menu>
+  <nav aria-label="Mobile">
+    <ol class="reset-list">
+      {navLinks.map(({ name, url }) => (
+        <li>
+          <a href={url} data-section={url.split('#')[1]}>
+            {name}
+          </a>
+        </li>
+      ))}
+    </ol>
+    <a class="btn resume" href={resumeUrl} target="_blank" rel="noopener noreferrer">
+      Resume
+    </a>
+  </nav>
+</aside>
+
+<script>
+  const header = document.querySelector<HTMLElement>('[data-header]')!;
+  const menu = document.querySelector<HTMLElement>('[data-menu]')!;
+  const menuButton = document.querySelector<HTMLButtonElement>('[data-menu-button]')!;
+
+  // Hide the header while scrolling down, bring it back when scrolling up.
+  let lastY = window.scrollY;
+  let ticking = false;
+  const onScroll = () => {
+    const y = window.scrollY;
+    header.classList.toggle('scrolled', y > 50);
+    if (Math.abs(y - lastY) > 8) {
+      header.classList.toggle('hidden', y > lastY && y > 50);
+      lastY = y;
+    }
+    ticking = false;
+  };
+  window.addEventListener(
+    'scroll',
+    () => {
+      if (!ticking) {
+        requestAnimationFrame(onScroll);
+        ticking = true;
+      }
+    },
+    { passive: true },
+  );
+  onScroll();
+
+  // Mobile menu
+  const setMenu = (open: boolean) => {
+    menuButton.setAttribute('aria-expanded', String(open));
+    menu.classList.toggle('open', open);
+    menu.inert = !open;
+    document.body.classList.toggle('menu-open', open);
+    if (open) menu.querySelector<HTMLElement>('a')?.focus();
+  };
+  menuButton.addEventListener('click', () =>
+    setMenu(menuButton.getAttribute('aria-expanded') !== 'true'),
+  );
+  menu.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setMenu(false)));
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && menu.classList.contains('open')) {
+      setMenu(false);
+      menuButton.focus();
+    }
+  });
+  document.addEventListener('click', (e) => {
+    const target = e.target as Node;
+    if (menu.classList.contains('open') && !menu.contains(target) && !menuButton.contains(target)) {
+      setMenu(false);
+    }
+  });
+  window.matchMedia('(min-width: 769px)').addEventListener('change', (e) => {
+    if (e.matches) setMenu(false);
+  });
+
+  // Highlight the link for whichever section is in view.
+  const links = document.querySelectorAll<HTMLAnchorElement>('[data-section]');
+  const sections = [...new Set([...links].map((l) => l.dataset.section))]
+    .map((id) => document.getElementById(id!))
+    .filter(Boolean) as HTMLElement[];
+  if (sections.length && 'IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          links.forEach((l) => {
+            if (l.dataset.section === entry.target.id) l.setAttribute('aria-current', 'true');
+            else l.removeAttribute('aria-current');
+          });
+        });
+      },
+      { rootMargin: '-45% 0px -50% 0px' },
+    );
+    sections.forEach((s) => observer.observe(s));
+  }
+</script>
+
+<style>
+  .site-header {
+    position: fixed;
+    top: 0;
+    z-index: 11;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: var(--nav-height);
+    padding: 0 50px;
+    background-color: var(--navy);
+    transition: var(--transition);
+  }
+
+  .site-header.scrolled {
+    height: var(--nav-scroll-height);
+    box-shadow: 0 10px 30px -10px var(--navy-shadow);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .site-header.hidden {
+      transform: translateY(calc(var(--nav-scroll-height) * -1));
+    }
+  }
+
+  @media (max-width: 1080px) {
+    .site-header {
+      padding: 0 40px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .site-header {
+      padding: 0 20px;
+    }
+  }
+
+  nav[aria-label='Main'] {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 1300px;
+    margin: 0 auto;
+    color: var(--lightest-slate);
+    font-family: var(--font-mono);
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--lightest-slate);
+    font-family: var(--font-sans);
+    font-size: var(--fz-xl);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  .logo:hover,
+  .logo:focus-visible {
+    color: var(--green);
+  }
+
+  .logo :global(.logo-icon) {
+    width: 30px;
+    height: 30px;
+  }
+
+  .right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .links {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .links ol {
+    display: flex;
+    align-items: center;
+  }
+
+  .links ol a {
+    padding: 10px 12px;
+    color: var(--light-slate);
+    font-size: var(--fz-sm);
+  }
+
+  .links ol a:hover,
+  .links ol a:focus-visible,
+  .links ol a[aria-current='true'] {
+    color: var(--green);
+    text-shadow: var(--glow-text);
+  }
+
+  .links .btn-sm {
+    margin-left: 8px;
+  }
+
+  .hamburger {
+    display: none;
+    position: relative;
+    z-index: 12;
+    width: 44px;
+    height: 44px;
+    margin-right: -10px;
+    background: transparent;
+  }
+
+  .bars,
+  .bars::before,
+  .bars::after {
+    position: absolute;
+    left: 9px;
+    width: 26px;
+    height: 2px;
+    border-radius: 2px;
+    background-color: var(--green);
+    transition:
+      transform 0.22s var(--easing),
+      opacity 0.15s ease,
+      top 0.15s ease;
+  }
+
+  .bars {
+    top: 21px;
+  }
+
+  .bars::before,
+  .bars::after {
+    content: '';
+    left: 0;
+  }
+
+  .bars::before {
+    top: -8px;
+  }
+
+  .bars::after {
+    top: 8px;
+  }
+
+  [aria-expanded='true'] .bars {
+    transform: rotate(45deg);
+  }
+
+  [aria-expanded='true'] .bars::before {
+    top: 0;
+    opacity: 0;
+  }
+
+  [aria-expanded='true'] .bars::after {
+    top: 0;
+    transform: rotate(-90deg);
+  }
+
+  @media (max-width: 768px) {
+    .links {
+      display: none;
+    }
+
+    .hamburger {
+      display: block;
+    }
+  }
+
+  .drawer {
+    display: none;
+  }
+
+  @media (max-width: 768px) {
+    .drawer {
+      display: flex;
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 10;
+      width: min(80vw, 360px);
+      height: 100dvh;
+      padding: calc(var(--nav-height) + 16px) 28px 32px;
+      overflow-y: auto;
+      background-color: var(--light-navy);
+      border-left: 1px solid var(--glass-border);
+      box-shadow: -10px 0 30px -15px var(--navy-shadow);
+      transform: translateX(100%);
+      visibility: hidden;
+      transition: var(--transition);
+    }
+
+    .drawer.open {
+      transform: none;
+      visibility: visible;
+    }
+  }
+
+  .drawer nav {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    width: 100%;
+  }
+
+  .drawer li {
+    border-bottom: 1px solid var(--glass-border);
+  }
+
+  .drawer ol a {
+    display: block;
+    padding: 16px 0;
+    color: var(--lightest-slate);
+    font-family: var(--font-mono);
+    font-size: var(--fz-xl);
+  }
+
+  .drawer ol a:hover,
+  .drawer ol a[aria-current='true'] {
+    color: var(--green);
+  }
+
+  .drawer .resume {
+    width: 100%;
+    text-align: center;
+  }
+</style>
