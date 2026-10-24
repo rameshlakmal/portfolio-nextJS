@@ -129,6 +129,54 @@ const total = featuredProjects.length + projects.length;
     const n = slides.length;
     if (n < 2) return;
 
+    const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
+    const side = (pos?: string) => (pos?.endsWith('left') ? -1 : pos?.endsWith('right') ? 1 : 0);
+    const look = (el: HTMLElement) => {
+      const s = getComputedStyle(el);
+      return { transform: s.transform, filter: s.filter, opacity: s.opacity };
+    };
+
+    // Moves a card to its new place. A card that changes sides (left to right
+    // or back) swings round behind the front card, like a turning ring,
+    // instead of sliding straight across it.
+    const place = (slide: HTMLElement, pos: string) => {
+      const from = slide.dataset.pos;
+      const start = look(slide);
+      // A turn still running is stopped where it is, so the next move starts from there.
+      const turning = slide.getAnimations().filter((a) => !(a instanceof CSSTransition));
+      turning.forEach((a) => a.cancel());
+      if (reduceMotion.matches || !from || side(from) * side(pos) >= 0) {
+        if (turning.length) {
+          slide.style.transition = 'none';
+          Object.assign(slide.style, start);
+          void slide.offsetWidth;
+          slide.style.transition = slide.style.zIndex = '';
+          slide.style.transform = slide.style.filter = slide.style.opacity = '';
+        }
+        slide.dataset.pos = pos;
+        return;
+      }
+      slide.style.transition = 'none';
+      slide.dataset.pos = pos;
+      const end = look(slide);
+      slide.style.zIndex = '0';
+      const easing = getComputedStyle(slide).getPropertyValue('--easing').trim() || 'ease';
+      const turn = slide.animate(
+        [
+          start,
+          { transform: 'translateX(0) scale(0.6)', filter: 'blur(6px) brightness(0.5)', opacity: '0.6', offset: 0.5 },
+          end,
+        ],
+        { duration: 700, easing },
+      );
+      turn.finished
+        .then(() => {
+          slide.style.transition = '';
+          slide.style.zIndex = '';
+        })
+        .catch(() => {});
+    };
+
     let current = 0;
     const show = (index: number) => {
       current = ((index % n) + n) % n;
@@ -144,7 +192,7 @@ const total = featuredProjects.length + projects.length;
                 : d < n / 2
                   ? 'hidden-right'
                   : 'hidden-left';
-        slide.dataset.pos = pos;
+        place(slide, pos);
         const front = pos === 'center';
         slide.toggleAttribute('inert', !front);
         slide.setAttribute('aria-hidden', String(!front));
