@@ -774,6 +774,116 @@ const scenes = {};
         <span class="h2" style="font-size:16px">3 passed · 1 failed</span><span class="m" style="margin-left:auto">exit code 1</span></div></div>`);
 }
 
+/* 10. Halden Outfitters: switch a planted bug on, check out, and the SQL rule that guards it fails. */
+{
+  const css = [];
+  const X = `<svg viewBox="0 0 24 24" fill="none" stroke="${RED}" stroke-width="2.4" stroke-linecap="round"><path d="M7 7l10 10M17 7L7 17"/></svg>`;
+  const MTN = `<svg viewBox="0 0 24 24" fill="none" stroke="#07090c" stroke-width="2" stroke-linejoin="round"><path d="M3 19l6-10 4 6 2.5-3.5L21 19z"/></svg>`;
+  css.push(`
+  .bar10{position:absolute;left:30px;top:24px;width:1220px;height:62px;border-radius:16px;background:#0e1217;border:1px solid rgba(255,255,255,.07);display:flex;align-items:center;padding:0 18px;gap:14px}
+  .logo10{width:36px;height:36px;border-radius:10px;background:${TEAL};display:grid;place-items:center}
+  .logo10 svg{width:22px;height:22px}
+  .chip10{height:30px;padding:0 12px;border-radius:15px;background:#141a22;font:400 13px/30px 'SF Mono',monospace;color:${SUB}}
+  .lab{left:30px;top:106px;width:372px;height:580px}
+  .bug{position:absolute;left:18px;right:18px;height:72px;border-radius:12px;background:#141a22;padding:12px 14px}
+  .bug .nm{font-weight:600;font-size:16px;color:${INK}}
+  .bug .rl{font-size:14px;color:${SUB};margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:250px}
+  .sw{position:absolute;right:14px;top:22px;width:46px;height:26px;border-radius:13px;background:#29323d}
+  .sw i{position:absolute;left:3px;top:3px;width:20px;height:20px;border-radius:50%;background:${SUB};display:block}
+  .bugOn{${anim('bugOn')}}
+  .swOn{${anim('swOn')}}
+  .swOn i{${anim('knob')}}
+  .shop{left:424px;top:106px;width:420px;height:580px}
+  .line10{position:absolute;left:24px;right:24px;display:flex;justify-content:space-between;align-items:center;height:40px;border-bottom:1px solid #151b23}
+  .pay{position:absolute;left:24px;right:24px;top:466px;height:50px;border-radius:12px;background:${TEAL};color:#07090c;font:600 17px/50px 'Calibre';text-align:center;${anim('pay')}}
+  .ripple10{position:absolute;left:634px;top:597px;width:40px;height:40px;margin:-20px 0 0 -20px;border-radius:50%;border:2px solid ${TEAL};opacity:0;${anim('rip10', D, 'ease-out')}}
+  .cursor10{position:absolute;left:0;top:0;width:26px;height:26px;${anim('cur10')}}
+  .rules10{left:866px;top:106px;width:384px;height:580px}
+  .rule10{position:absolute;left:20px;right:20px;display:flex;gap:12px;align-items:flex-start}
+  .rule10 .txt{font-size:16px;color:${INK};white-space:normal;line-height:1.3;width:220px}
+  .rule10 .res{margin-left:auto;font:400 13px/22px 'SF Mono',monospace;white-space:nowrap}
+  .ic10{width:24px;height:24px;border-radius:50%;border:2px solid #29323d;display:grid;place-items:center;flex-shrink:0}
+  .ic10 svg{width:14px;height:14px}
+  `);
+  // The switch flips on, the cursor moves to Pay and clicks, the second discount line appears.
+  css.push(kf('bugOn', [[0, `background:${RED}1f;box-shadow:inset 0 0 0 1px ${RED}66`], [0.3, 'background:#141a22;box-shadow:inset 0 0 0 1px transparent'],
+    [1.2, 'background:#141a22;box-shadow:inset 0 0 0 1px transparent'], [1.4, `background:${RED}1f;box-shadow:inset 0 0 0 1px ${RED}66`], [D, `background:${RED}1f;box-shadow:inset 0 0 0 1px ${RED}66`]]));
+  css.push(restOn('swOn', 1.2, 'background:#29323d', `background:${RED}`));
+  css.push(restOn('knob', 1.2, `transform:translateX(0);background:${SUB}`, 'transform:translateX(20px);background:#ffffff'));
+  css.push(kf('cur10', [[0, 'transform:translate(1238px,684px)'], [0.4, 'transform:translate(1238px,684px)'], [1.0, 'transform:translate(352px,200px)'],
+    [1.1, 'transform:translate(352px,200px) scale(.85)'], [1.25, 'transform:translate(352px,200px)'], [1.7, 'transform:translate(352px,200px)'],
+    [2.5, 'transform:translate(626px,590px)'], [2.6, 'transform:translate(626px,590px) scale(.85)'], [2.75, 'transform:translate(626px,590px)'],
+    [6.8, 'transform:translate(626px,590px)'], [7.6, 'transform:translate(1238px,684px)'], [D, 'transform:translate(1238px,684px)']]));
+  css.push(kf('pay', [[0, 'transform:scale(1)'], [2.55, 'transform:scale(1)'], [2.65, 'transform:scale(.96)'], [2.85, 'transform:scale(1)'], [D, 'transform:scale(1)']]));
+  css.push(kf('rip10', [[0, 'transform:scale(.3);opacity:0'], [2.6, 'transform:scale(.3);opacity:.9'], [3.3, 'transform:scale(3.2);opacity:0'], [D, 'transform:scale(3.2);opacity:0']]));
+  css.push(restOn('dup', 1.5, 'opacity:0;transform:translateX(-8px)', 'opacity:1;transform:translateX(0)'));
+  css.push(restOn('tot', 1.5, 'opacity:0', 'opacity:1'), restOn('totOld', 1.5, 'opacity:1', 'opacity:0'));
+  css.push(restOn('placed', 3.0, 'opacity:0;transform:translateY(6px)', 'opacity:1;transform:translateY(0)'));
+
+  const bugs = [
+    ['Coupon applied twice', 'The discount is exactly what the coupon gives', true],
+    ['Payment misses shipping', 'The card is authorized for what the order leaves to pay', false],
+    ['Europe charged the domestic rate', 'Shipping matches the zone rate', false],
+    ['Refunds can exceed the payment', 'Refunds never exceed what was paid', false],
+    ['Hidden reviews still count', 'A rating is the average of published reviews', false],
+  ];
+  const bugHtml = bugs.map(([name, rule, on], i) => `<div class="bug${on ? ' bugOn' : ''}" style="top:${92 + i * 86}px">
+      <div class="nm">${name}</div><div class="rl">${rule}</div><div class="sw${on ? ' swOn' : ''}"><i></i></div></div>`).join('');
+
+  const lines = [
+    ['Ridgeline 2P Tent', '349.00'],
+    ['Titanium Pot', '54.00'],
+    ['Subtotal', '403.00'],
+    ['WELCOME10', '−40.30'],
+  ];
+  const lineHtml = lines.map(([k, v], i) => `<div class="line10" style="top:${110 + i * 44}px">
+      <span class="s" style="color:${i < 2 ? INK : SUB}">${k}</span><span class="m" style="color:${i === 3 ? TEAL : INK}">${v}</span></div>`).join('')
+    + `<div class="line10" style="top:${110 + 4 * 44}px;${anim('dup')}"><span class="s" style="color:${RED}">WELCOME10 again</span><span class="m" style="color:${RED}">−40.30</span></div>`
+    + `<div class="line10" style="top:${110 + 5 * 44}px;border-bottom:none"><span class="h2">Before tax</span>
+        <span style="position:relative;width:110px;height:24px"><span class="m" style="position:absolute;right:0;font-size:17px;color:${INK};${anim('totOld')}">362.70</span>
+        <span class="m" style="position:absolute;right:0;font-size:17px;color:${RED};font-weight:600;${anim('tot')}">322.40</span></span></div>`;
+
+  const rules = [
+    ['The discount is exactly what the coupon gives', false, '1 violation'],
+    ['The card is authorized for what the order leaves to pay', true, 'pass'],
+    ['Open stock holds belong to open orders', true, 'pass'],
+    ['An order subtotal is the sum of its lines', true, 'pass'],
+  ];
+  let ruleHtml = '';
+  rules.forEach(([text, ok, res], i) => {
+    const t = 3.6 + i * 0.35;
+    css.push(restOn(`hr${i}`, t, 'border-color:#29323d;background:transparent', ok ? `border-color:${TEAL};background:${TEAL}22` : `border-color:${RED};background:${RED}22`));
+    css.push(restOn(`hc${i}`, t + 0.05, 'opacity:0;transform:scale(.4)', 'opacity:1;transform:scale(1)'));
+    css.push(restOn(`hs${i}`, t + 0.1, 'opacity:0', 'opacity:1'));
+    if (!ok) css.push(kf('shake10', [[0, 'transform:translateX(0)'], [t + 0.1, 'transform:translateX(0)'], [t + 0.18, 'transform:translateX(-5px)'], [t + 0.26, 'transform:translateX(5px)'], [t + 0.34, 'transform:translateX(-3px)'], [t + 0.42, 'transform:translateX(0)'], [D, 'transform:translateX(0)']]));
+    ruleHtml += `<div class="rule10" style="top:${92 + i * 72}px;${ok ? '' : anim('shake10')}">
+      <div class="ic10" style="${anim(`hr${i}`)}"><span style="display:grid;${anim(`hc${i}`)}">${ok ? ICON.check : X}</span></div>
+      <span class="txt">${text}</span><span class="res" style="color:${ok ? SUB : RED};${anim(`hs${i}`)}">${res}</span></div>`;
+  });
+  css.push(restOn('viol10', 5.2, 'opacity:0;transform:translateY(6px)', 'opacity:1;transform:translateY(0)'));
+  css.push(restOn('sum10', 5.6, 'opacity:0', 'opacity:1'));
+
+  scenes.project10 = page('project10', css.join(''), `
+    <div class="bar10"><div class="logo10">${MTN}</div><span class="h2">Halden Outfitters</span>
+      <span class="s" style="margin-left:8px">a shop built to be tested</span>
+      <div style="margin-left:auto;display:flex;gap:10px"><span class="chip10">18 planted bugs</span><span class="chip10">38 SQL rules</span><span class="chip10">89 API operations</span></div></div>
+    <div class="panel lab"><div class="t h2" style="left:20px;top:20px">QA lab</div><div class="t m" style="left:20px;top:48px">planted bugs · off until switched on</div>
+      ${bugHtml}</div>
+    <div class="panel shop"><div class="t h2" style="left:24px;top:20px">Checkout</div><div class="t m" style="left:24px;top:48px">step 4 of 4 · review and pay</div>
+      <div class="t cap" style="left:24px;top:84px">Order summary</div>
+      ${lineHtml}
+      <div class="t" style="left:24px;right:24px;top:400px;height:44px;border-radius:10px;border:1px solid ${TEAL}66;background:${TEAL}14;display:flex;align-items:center;gap:10px;padding-left:12px;${anim('placed')}">
+        ${check('', `style="border-color:${TEAL};background:${TEAL}22"`)}<span class="s" style="color:${INK}">Order #100042 confirmed</span></div>
+      <div class="pay">Pay with card ···· 4242</div></div>
+    <div class="panel rules10"><div class="t h2" style="left:20px;top:20px">Business rules</div><div class="t m" style="left:20px;top:48px">qa/rules.sql · after the order</div>
+      ${ruleHtml}
+      <div class="t" style="left:20px;right:20px;top:396px;height:76px;border-radius:10px;background:${RED}14;border:1px solid ${RED}55;padding:8px 12px;${anim('viol10')}">
+        <div class="cap" style="color:${RED}">Violation</div><div class="m" style="color:${INK}">order 100042 · discount 80.60</div><div class="m" style="color:${INK}">coupon gives 40.30</div></div>
+      <div class="t" style="left:20px;right:20px;top:488px;height:46px;border-radius:10px;background:#141a22;display:flex;align-items:center;padding:0 14px;${anim('sum10')}">
+        <span class="h2" style="font-size:16px">3 passed · 1 failed</span><span class="m" style="margin-left:auto">bug caught</span></div></div>
+    <div class="ripple10"></div><div class="cursor10">${ICON.cursor}</div>`);
+}
+
 for (const [id, html] of Object.entries(scenes)) {
   fs.mkdirSync(path.join(__dirname, 'out'), { recursive: true });
   fs.writeFileSync(path.join(__dirname, 'out', `${id}.html`), applyPalette(html, id));

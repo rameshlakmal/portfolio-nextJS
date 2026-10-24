@@ -95,6 +95,8 @@ const PALETTES = {
   // Propmaster: indigo, like its own app, with green inserts and red REC
   project9: dark({ bg: '#0d0c26', ink: '#efeeff', accent: '#7c7cff', warn: '#f5b84a', red: '#ff5d6c', blue: '#3fd0a8' }),
   project8: dark({ bg: '#03201f', ink: '#ecfbf8', accent: '#f5b841', warn: '#ff8f5a', red: '#ff6b6b', blue: '#5ed3c3' }),
+  // Halden Outfitters: the shop's charcoal, alpine green for passes, red for the caught bug
+  project10: dark({ bg: '#121313', ink: '#f4f4f2', accent: '#4cc38a', warn: '#ff7a3d', red: '#ff4f5e', blue: '#6aa8ff' }),
 };
 
 // Design colours used in build.cjs -> palette keys.

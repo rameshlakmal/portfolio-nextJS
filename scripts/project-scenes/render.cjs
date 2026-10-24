@@ -8,7 +8,7 @@ const { spawnSync } = require('child_process');
 
 const scenesDir = path.join(__dirname, 'out');
 const outDir = path.join(__dirname, '..', '..', 'raw-previews');
-const idsArg = process.argv[2] || 'project1,project2,project3,project4,project5,project6,project7,project8,project9';
+const idsArg = process.argv[2] || 'project1,project2,project3,project4,project5,project6,project7,project8,project9,project10';
 const CHROME = process.env.CHROME_PATH || 'C:/Program Files/Google/Chrome/Application/chrome.exe';
 const ids = idsArg.split(',');
 const FPS = 24;

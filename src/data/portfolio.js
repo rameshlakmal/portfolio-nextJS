@@ -7,6 +7,7 @@ import project6Cover from '../images/project6/cover.webp';
 import project7Cover from '../images/project7/cover.webp';
 import project8Cover from '../images/project8/cover.webp';
 import project9Cover from '../images/project9/cover.webp';
+import project10Cover from '../images/project10/cover.webp';
 
 export const resumeUrl =
   'https://drive.google.com/file/d/1IbW5OoP16tQTcJx3TvE7ZWC4Vy___Axi/view?usp=sharing';
@@ -122,12 +123,23 @@ export const certifications = [
 
 export const featuredProjects = [
   {
+    date: '2026-10-24',
+    title: 'Halden Outfitters',
+    cover: project10Cover,
+    id: 'project10',
+    description:
+      "A demo outdoor-gear shop built as a practice target for QA engineers, with a Next.js storefront, a separate staff admin and a documented REST API covering checkout, payments, returns, refunds, store credit and loyalty points. It contains 18 planted bugs that can be switched on from the admin's QA lab; each one breaks exactly one of 38 business rules written in SQL, and a CI test confirms that on every run. The repository includes Playwright suites with accessibility checks for both apps, API integration tests against PostgreSQL covering concurrency and security cases, an OpenAPI 3.1 specification, a Postman collection and an adjustable shop clock for testing time-based rules. A public read-only login opens the staff admin, and the business rules are checked with Propmaster.",
+    tech: ['Playwright', 'PostgreSQL', 'Next.js', 'Fastify'],
+    github: 'https://github.com/rameshlakmal/halden-outfitters',
+    external: 'https://halden-outfitters.vercel.app',
+  },
+  {
     date: '2026-10-22',
     title: 'Propmaster',
     cover: project9Cover,
     id: 'project9',
     description:
-      'A test-data toolkit for QA engineers working with PostgreSQL. It records every insert, update and delete a test causes, grouped by the test step that caused it, checks the recording against business rules written in SQL, and exports it as a bug-ticket report or re-runnable SQL checks. It also finds and reserves shared test data with SQL recipes, and seeds and cleans up scenario data from YAML, through a CLI or a local web app.',
+      'A test-data toolkit for QA engineers working with PostgreSQL. It records every insert, update and delete a test causes, grouped by the test step that caused it, checks the recording against business rules written in SQL, and exports it as a bug-ticket report or re-runnable SQL checks. It also finds and reserves shared test data with SQL recipes, and seeds and cleans up scenario data from YAML, through a CLI or a local web app. Halden Outfitters, a demo shop with planted bugs, uses all three for its rules, recipes and scenarios.',
     tech: ['TypeScript', 'PostgreSQL', 'React', 'Vitest'],
     github: 'https://github.com/rameshlakmal/propmaster',
   },
