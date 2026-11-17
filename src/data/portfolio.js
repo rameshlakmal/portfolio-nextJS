@@ -132,7 +132,8 @@ export const featuredProjects = [
       'A Chrome and Edge extension with a Node server that turns one screen recording into a complete bug report. While a tab is recorded it captures every click and keystroke as plain-language steps, console errors and a full network log with sensitive values masked, along with the browser, OS and screen size. The share link opens a player with the video and DevTools panels synced to its timeline. Claude, OpenAI, Gemini or a local Ollama model writes the report in a fixed template from a short description, which can then be filed as a GitHub, Jira or GitLab issue with labels, assignees and project fields, or sent to Slack or Notion. It also includes an annotation editor for screenshots, trimming, folders, Google Drive sharing and a script to host the server for a team.',
     tech: ['Chrome Extension', 'Node.js', 'ffmpeg', 'Claude'],
     github: 'https://github.com/rameshlakmal/BugSnap',
-    external: 'https://github.com/rameshlakmal/BugSnap/blob/main/INSTALL.md',
+    external: 'https://github.com/rameshlakmal/BugSnap/blob/master/INSTALL.md',
+    externalLabel: 'Install guide',
   },
   {
     date: '2026-10-24',
