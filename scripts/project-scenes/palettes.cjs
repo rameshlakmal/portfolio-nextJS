@@ -97,6 +97,8 @@ const PALETTES = {
   project8: dark({ bg: '#03201f', ink: '#ecfbf8', accent: '#f5b841', warn: '#ff8f5a', red: '#ff6b6b', blue: '#5ed3c3' }),
   // Halden Outfitters: the shop's charcoal, alpine green for passes, red for the caught bug
   project10: dark({ bg: '#121313', ink: '#f4f4f2', accent: '#4cc38a', warn: '#ff7a3d', red: '#ff4f5e', blue: '#6aa8ff' }),
+  // BugSnap: its own light graphite UI, brand red for recording and errors, green for "issue created"
+  project11: light({ bg: '#ececef', ink: '#0f0f12', accent: '#e5484d', warn: '#c27c00', red: '#e5484d', blue: '#1a8f50' }),
 };
 
 // Design colours used in build.cjs -> palette keys.

@@ -8,6 +8,7 @@ import project7Cover from '../images/project7/cover.webp';
 import project8Cover from '../images/project8/cover.webp';
 import project9Cover from '../images/project9/cover.webp';
 import project10Cover from '../images/project10/cover.webp';
+import project11Cover from '../images/project11/cover.webp';
 
 export const resumeUrl =
   'https://drive.google.com/file/d/1IbW5OoP16tQTcJx3TvE7ZWC4Vy___Axi/view?usp=sharing';
@@ -123,6 +124,17 @@ export const certifications = [
 
 export const featuredProjects = [
   {
+    date: '2026-11-17',
+    title: 'BugSnap',
+    cover: project11Cover,
+    id: 'project11',
+    description:
+      'A Chrome and Edge extension with a Node server that turns one screen recording into a complete bug report. While a tab is recorded it captures every click and keystroke as plain-language steps, console errors and a full network log with sensitive values masked, along with the browser, OS and screen size. The share link opens a player with the video and DevTools panels synced to its timeline. Claude, OpenAI, Gemini or a local Ollama model writes the report in a fixed template from a short description, which can then be filed as a GitHub, Jira or GitLab issue with labels, assignees and project fields, or sent to Slack or Notion. It also includes an annotation editor for screenshots, trimming, folders, Google Drive sharing and a script to host the server for a team.',
+    tech: ['Chrome Extension', 'Node.js', 'ffmpeg', 'Claude'],
+    github: 'https://github.com/rameshlakmal/BugSnap',
+    external: 'https://github.com/rameshlakmal/BugSnap/blob/main/INSTALL.md',
+  },
+  {
     date: '2026-10-24',
     title: 'Halden Outfitters',
     cover: project10Cover,
@@ -143,17 +155,6 @@ export const featuredProjects = [
     tech: ['TypeScript', 'PostgreSQL', 'React', 'Vitest'],
     github: 'https://github.com/rameshlakmal/propmaster',
   },
-  {
-    date: '2026-03-15',
-    title: 'TestPilot AI',
-    cover: project7Cover,
-    id: 'project7',
-    description:
-      'TestPilot AI converts software requirements into structured, prioritized test cases. It analyzes the input to identify key test conditions, applies the relevant test design techniques and generates a deduplicated test suite. Results are shown in a searchable format and can be exported or synced directly to Jira (AIO Tests) for end-to-end traceability.',
-    tech: ['Anthropic', 'Jira'],
-    github: 'https://github.com/rameshlakmal/TestPilot-AI',
-    external: 'https://testpilot-ai-app.vercel.app/',
-  },
 ];
 
 export const projects = [
@@ -168,6 +169,17 @@ export const projects = [
     github: 'https://github.com/rameshlakmal/Agentic-Testing',
     external:
       'https://www.linkedin.com/pulse/setting-up-qa-workflow-playwright-github-actions-aio-tests-lakmal-kvscc',
+  },
+  {
+    date: '2026-03-15',
+    title: 'TestPilot AI',
+    cover: project7Cover,
+    id: 'project7',
+    description:
+      'TestPilot AI converts software requirements into structured, prioritized test cases. It analyzes the input to identify key test conditions, applies the relevant test design techniques and generates a deduplicated test suite. Results are shown in a searchable format and can be exported or synced directly to Jira (AIO Tests) for end-to-end traceability.',
+    tech: ['Anthropic', 'Jira'],
+    github: 'https://github.com/rameshlakmal/TestPilot-AI',
+    external: 'https://testpilot-ai-app.vercel.app/',
   },
   {
     date: '2025-11-20',

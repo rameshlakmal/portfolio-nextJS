@@ -884,6 +884,153 @@ const scenes = {};
     <div class="ripple10"></div><div class="cursor10">${ICON.cursor}</div>`);
 }
 
+/* 11. BugSnap: record a bug, the steps, console error and failed request are captured, Claude writes the report, GitHub gets the issue. */
+{
+  const css = [];
+  const GREEN = BLUE; // the palette maps BLUE to BugSnap's "ok" green
+  const BS_LOGO = `<!--logo--><svg viewBox="0 0 128 128"><defs><linearGradient id="bs-tile" x1="0" y1="0" x2="0.35" y2="1"><stop offset="0" stop-color="#2e2e34"/><stop offset="1" stop-color="#0f0f11"/></linearGradient><radialGradient id="bs-dot" cx="0.38" cy="0.32" r="0.75"><stop offset="0" stop-color="#ff7d81"/><stop offset="1" stop-color="#e5484d"/></radialGradient></defs><rect width="128" height="128" rx="32" fill="url(#bs-tile)"/><g fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".9"><path d="M22 43v-8a13 13 0 0 1 13-13h8"/><path d="M85 22h8a13 13 0 0 1 13 13v8"/><path d="M106 85v8a13 13 0 0 1-13 13h-8"/><path d="M43 106h-8a13 13 0 0 1-13-13v-8"/></g><g transform="translate(0 -3)"><g stroke="#fff" stroke-width="5" stroke-linecap="round"><path d="M50 67l-8-4M49 78h-9M50 89l-8 4M78 67l8-4M79 78h9M78 89l8 4"/></g><ellipse cx="64" cy="79" rx="16" ry="19" fill="#fff"/><path d="M64 65v28" stroke="#16161a" stroke-width="3.2" stroke-linecap="round"/><circle cx="64" cy="51" r="12.5" fill="#141417"/><circle cx="64" cy="51" r="9.5" fill="url(#bs-dot)"/></g></svg><!--/logo-->`;
+  const X = `<svg viewBox="0 0 24 24" fill="none" stroke="${RED}" stroke-width="2.4" stroke-linecap="round"><path d="M7 7l10 10M17 7L7 17"/></svg>`;
+  const OK = `<svg viewBox="0 0 24 24" fill="none" stroke="${GREEN}" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7"/></svg>`;
+  css.push(`
+  .bar11{position:absolute;left:30px;top:24px;width:1220px;height:62px;border-radius:16px;background:#0e1217;border:1px solid rgba(255,255,255,.07);display:flex;align-items:center;padding:0 18px;gap:14px}
+  .logo11{width:36px;height:36px}.logo11 svg{width:36px;height:36px;display:block}
+  .chip11{height:30px;padding:0 12px;border-radius:15px;background:#141a22;font:400 13px/30px 'SF Mono',monospace;color:${SUB}}
+  .rec{left:30px;top:106px;width:420px;height:580px}
+  .dev{left:470px;top:106px;width:390px;height:580px}
+  .rep{left:880px;top:106px;width:370px;height:580px}
+  .recpill{position:absolute;right:20px;top:20px;height:30px;padding:0 12px;border-radius:15px;background:${RED}1a;display:flex;align-items:center;gap:8px;font:600 13px/30px 'SF Mono',monospace;color:${RED}}
+  .recdot{width:9px;height:9px;border-radius:50%;background:${RED};${anim('blink11', 1, 'ease-in-out')}}
+  .win{position:absolute;left:18px;top:84px;width:384px;height:300px;border-radius:12px;background:#141a22;border:1px solid rgba(255,255,255,.06);overflow:hidden}
+  .win .dots{left:14px;top:15px}
+  .field11{position:absolute;left:24px;width:336px;height:40px;border-radius:10px;background:#0b0f14;border:1px solid #222b36;padding-left:12px;font:400 15px/38px 'SF Mono',monospace;color:${INK}}
+  .btn11{position:absolute;left:24px;width:336px;height:44px;border-radius:10px;background:${INK};color:#07090c;font:600 17px/44px 'Calibre';text-align:center}
+  .ctrl{position:absolute;left:18px;top:402px;width:384px;height:52px;border-radius:26px;background:#141a22;display:flex;align-items:center;padding:0 10px 0 18px;gap:12px}
+  .ctrl i{display:block}
+  .tab11{position:absolute;top:56px;height:32px;font-size:16px;color:${SUB};display:flex;gap:6px;align-items:center}
+  .tab11 .m{line-height:20px}
+  .badge{min-width:20px;height:20px;padding:0 6px;border-radius:10px;background:${RED};color:#07090c;font:600 12px/20px 'SF Mono',monospace;text-align:center}
+  .step11{position:absolute;left:12px;right:12px;height:58px;border-radius:10px;padding:8px 10px 0 64px}
+  .step11 .tm{position:absolute;left:12px;top:9px;font:400 14px/20px 'SF Mono',monospace;color:${SUB}}
+  .step11 .tx{font-size:16px;color:${INK};white-space:nowrap}
+  .step11 .sl{font:400 13px/20px 'SF Mono',monospace;color:${SUB}}
+  .err11{position:absolute;left:12px;right:12px;height:58px;border-radius:10px;background:${RED}12;border:1px solid ${RED}40;padding:8px 12px}
+  .track{position:absolute;left:20px;right:20px;top:504px;height:6px;border-radius:3px;background:#1f2731}
+  .track b{position:absolute;top:-2px;width:10px;height:10px;border-radius:50%;background:${RED};margin-left:-5px}
+  .track s{position:absolute;top:-4px;width:2px;height:14px;background:#3a4552}
+  .rl{position:absolute;left:20px;right:20px;font-size:16px;color:${INK};white-space:nowrap}
+  .gh{position:absolute;left:20px;right:20px;top:420px;height:48px;border-radius:12px;background:${INK};color:#07090c;display:flex;align-items:center;justify-content:center;gap:10px;font:600 17px/48px 'Calibre';${anim('gh11')}}
+  .gh .lg{width:22px;height:22px;display:grid;place-items:center}
+  .gh .lg svg{width:22px;height:22px}
+  .ripple11{position:absolute;width:40px;height:40px;margin:-20px 0 0 -20px;border-radius:50%;border:2px solid ${RED};opacity:0}
+  .cursor11{position:absolute;left:0;top:0;width:26px;height:26px;${anim('cur11')}}
+  `);
+  // Infinite 1 s blink; 8 s is a whole number of blinks, so the loop stays seamless.
+  css.push('@keyframes blink11{0%{opacity:1}50%{opacity:.3}100%{opacity:1}}');
+
+  // Cursor: type into the email field, click Start trial (nothing happens), later create the GitHub issue.
+  const at = (x, y, s = '') => `transform:translate(${x - 5}px,${y - 3}px)${s}`;
+  const REST = [1238, 684];
+  const EMAIL = [210, 338];
+  const START = [240, 396];
+  const GH = [1065, 550];
+  css.push(kf('cur11', [[0, at(...REST)], [0.4, at(...REST)], [0.95, at(...EMAIL)], [1.0, at(...EMAIL, ' scale(.85)')], [1.12, at(...EMAIL)],
+    [1.55, at(...EMAIL)], [1.95, at(...START)], [2.0, at(...START, ' scale(.85)')], [2.12, at(...START)],
+    [4.5, at(...START)], [5.3, at(...GH)], [5.35, at(...GH, ' scale(.85)')], [5.5, at(...GH)],
+    [6.8, at(...GH)], [7.6, at(...REST)], [D, at(...REST)]]));
+  const ripple = (name, t) => kf(name, [[0, 'transform:scale(.3);opacity:0'], [t, 'transform:scale(.3);opacity:.9'], [t + 0.7, 'transform:scale(3.2);opacity:0'], [D, 'transform:scale(3.2);opacity:0']]);
+  css.push(ripple('rpA', 1.0), ripple('rpB', 2.0), ripple('rpC', 5.35));
+  css.push(kf('start11', [[0, 'transform:scale(1)'], [1.98, 'transform:scale(1)'], [2.06, 'transform:scale(.96)'], [2.25, 'transform:scale(1)'], [D, 'transform:scale(1)']]));
+  css.push(kf('gh11', [[0, 'transform:scale(1)'], [5.33, 'transform:scale(1)'], [5.41, 'transform:scale(.96)'], [5.6, 'transform:scale(1)'], [D, 'transform:scale(1)']]));
+  css.push(restOn('type11', 1.1, 'clip-path:inset(0 100% 0 0)', 'clip-path:inset(0 0 0 0)', 0.45));
+
+  // DevTools: each step lands as it happens, then the console error and the failed request.
+  const steps = [
+    ['0:00', 'Starts on the "Pricing" page', 'example.com/pricing', 0.5],
+    ['0:03', 'Types "qa@example.com" into "Email"', '#email', 1.5],
+    ['0:05', 'Clicks the "Start trial" button', 'form > button', 2.1],
+  ];
+  const stepHtml = steps.map(([tm, tx, sl, t], i) => {
+    css.push(restOn(`st${i}`, t, 'opacity:0;transform:translateY(6px)', 'opacity:1;transform:translateY(0)'));
+    return `<div class="step11" style="top:${100 + i * 64}px;${i === 2 ? 'background:#141a22;' : ''}${anim(`st${i}`)}">
+      <span class="tm">${tm}</span><div class="tx">${esc(tx)}</div><div class="sl">${esc(sl)}</div></div>`;
+  }).join('');
+  css.push(restOn('con11', 2.5, 'opacity:0;transform:translateY(6px)', 'opacity:1;transform:translateY(0)'));
+  css.push(restOn('net11', 2.8, 'opacity:0;transform:translateY(6px)', 'opacity:1;transform:translateY(0)'));
+  css.push(kf('shake11', [[0, 'transform:translateX(0)'], [2.75, 'transform:translateX(0)'], [2.83, 'transform:translateX(-5px)'], [2.91, 'transform:translateX(5px)'], [2.99, 'transform:translateX(-3px)'], [3.07, 'transform:translateX(0)'], [D, 'transform:translateX(0)']]));
+  css.push(restOn('dotA', 2.5, 'opacity:0;transform:scale(.3)', 'opacity:1;transform:scale(1)'), restOn('dotB', 2.8, 'opacity:0;transform:scale(.3)', 'opacity:1;transform:scale(1)'));
+
+  // Bug report: Claude writes it line by line, then the GitHub issue is created.
+  const report = [
+    ['h2', 84, 'Pricing page: Start trial'],
+    ['h2', 108, 'button does nothing'],
+    ['cap', 150, 'Steps to reproduce'],
+    ['rl', 172, '1. Open example.com/pricing'],
+    ['rl', 196, '2. Type an email'],
+    ['rl', 220, '3. Click "Start trial"'],
+    ['cap', 258, 'Actual result'],
+    ['rl', 280, 'Nothing happens. POST /api/trial'],
+    ['rl', 304, 'returns 500 with a TypeError'],
+    ['cap', 342, 'Expected result'],
+    ['rl', 364, 'The free trial starts'],
+  ];
+  const repHtml = report.map(([cls, top, text], i) => {
+    css.push(restOn(`rp${i}`, 3.2 + i * 0.12, 'opacity:0;transform:translateX(-6px)', 'opacity:1;transform:translateX(0)', 0.2));
+    const style = cls === 'h2' ? 'left:20px;font-size:18px' : cls === 'cap' ? 'left:20px' : '';
+    return `<div class="${cls === 'rl' ? 'rl' : `t ${cls}`}" style="top:${top}px;${style};${anim(`rp${i}`)}">${esc(text)}</div>`;
+  }).join('');
+  css.push(restOn('done11', 5.55, 'opacity:0;transform:translateY(6px)', 'opacity:1;transform:translateY(0)'));
+  css.push(restOn('link11', 5.8, 'opacity:0', 'opacity:1'));
+
+  scenes.project11 = page('project11', css.join(''), `
+    <div class="bar11"><div class="logo11">${BS_LOGO}</div><span class="h2">BugSnap</span>
+      <span class="s" style="margin-left:8px">record a bug once, share one link</span>
+      <div style="margin-left:auto;display:flex;gap:10px"><span class="chip11">steps · console · network</span><span class="chip11">AI bug report</span><span class="chip11">GitHub · Jira · Slack</span></div></div>
+    <div class="panel rec"><div class="t h2" style="left:20px;top:20px">Recording</div><div class="t m" style="left:20px;top:48px">this tab · Chrome extension</div>
+      <div class="recpill"><span class="recdot"></span>REC 0:12</div>
+      <div class="win"><div class="dots"><i></i><i></i><i></i></div><div class="url">example.com/pricing</div>
+        <div class="t" style="left:0;right:0;top:40px;height:1px;background:#1d252f"></div>
+        <div class="t h" style="left:24px;top:62px">Pro plan</div>
+        <div class="t m" style="left:24px;top:94px;font-size:15px">$12 / month · 14-day trial</div>
+        <div class="field11" style="top:128px"><span style="display:inline-block;${anim('type11')}">qa@example.com</span></div>
+        <div class="btn11" style="top:184px;${anim('start11')}">Start trial</div>
+        <div class="t s" style="left:24px;top:244px;font-size:14px">No card needed</div></div>
+      <div class="ctrl"><span class="recdot" style="width:10px;height:10px;border-radius:50%;background:${RED};display:block"></span>
+        <span class="m" style="color:${INK};font-size:15px">0:12</span>
+        <span style="margin-left:auto;display:flex;gap:8px">
+          <span style="width:34px;height:34px;border-radius:17px;background:#1f2731;display:grid;place-items:center"><span style="display:flex;gap:4px"><i style="width:4px;height:13px;border-radius:1px;background:${INK}"></i><i style="width:4px;height:13px;border-radius:1px;background:${INK}"></i></span></span>
+          <span style="width:34px;height:34px;border-radius:17px;background:${RED};display:grid;place-items:center"><i style="width:12px;height:12px;border-radius:2px;background:#07090c"></i></span></span></div>
+      <div class="t m" style="left:20px;top:478px">captured with the video</div>
+      <div class="t" style="left:20px;top:504px;display:flex;gap:8px">
+        <span class="chip11">clicks</span><span class="chip11">typing</span><span class="chip11">errors</span><span class="chip11">requests</span></div></div>
+    <div class="panel dev"><div class="t h2" style="left:20px;top:20px">DevTools</div><div class="t m" style="left:110px;top:23px">synced to the video</div>
+      <div class="tab11" style="left:20px;color:${INK};font-weight:600">Steps <span class="m">3</span></div>
+      <div class="t" style="left:20px;top:88px;width:58px;height:2px;background:${INK}"></div>
+      <div class="tab11" style="left:110px">Console <span class="badge">1</span></div>
+      <div class="tab11" style="left:220px">Network <span class="badge">1</span></div>
+      <div class="t" style="left:0;right:0;top:91px;height:1px;background:#1d252f"></div>
+      ${stepHtml}
+      <div class="err11" style="top:300px;${anim('con11')}"><div class="cap" style="color:${RED}">Console · 0:05</div>
+        <div class="m" style="color:${INK}">TypeError: plan is undefined</div></div>
+      <div class="err11" style="top:368px;${anim('net11')}"><div style="${anim('shake11')}"><div class="cap" style="color:${RED}">Network · 0:05</div>
+        <div style="display:flex;gap:14px" class="m"><span style="color:${INK}">POST /api/trial</span><span style="color:${RED};font-weight:600">500</span><span style="margin-left:auto">212 ms</span></div></div></div>
+      <div class="t m" style="left:20px;top:470px">0:05 / 0:12</div>
+      <div class="t m" style="right:20px;top:470px;color:${INK}">Copy link at 0:05</div>
+      <div class="track"><span style="position:absolute;left:0;top:0;height:6px;width:42%;border-radius:3px;background:${SUB}"></span>
+        <s style="left:2%"></s><s style="left:25%"></s>
+        <b style="left:42%;${anim('dotA')}"></b><b style="left:46%;${anim('dotB')}"></b></div></div>
+    <div class="panel rep"><div class="t h2" style="left:20px;top:20px">Bug report</div><div class="t m" style="left:20px;top:48px">written by Claude</div>
+      <div class="t" style="right:20px;top:20px;width:30px;height:30px">${L.claude}</div>
+      ${repHtml}
+      <div class="gh"><span class="lg">${L.github}</span>Create GitHub issue</div>
+      <div class="t" style="left:20px;right:20px;top:484px;height:46px;border-radius:10px;border:1px solid ${GREEN}66;background:${GREEN}14;display:flex;align-items:center;gap:10px;padding:0 12px;${anim('done11')}">
+        <div class="chk" style="border-color:${GREEN};background:${GREEN}22">${OK}</div><span class="s" style="color:${INK}">Issue #128 created</span>
+        <span class="m" style="margin-left:auto;${anim('link11')}">link copied</span></div></div>
+    <div class="ripple11" style="left:${EMAIL[0]}px;top:${EMAIL[1]}px;${anim('rpA', D, 'ease-out')}"></div>
+    <div class="ripple11" style="left:${START[0]}px;top:${START[1]}px;${anim('rpB', D, 'ease-out')}"></div>
+    <div class="ripple11" style="left:${GH[0]}px;top:${GH[1]}px;${anim('rpC', D, 'ease-out')}"></div>
+    <div class="cursor11">${ICON.cursor}</div>`);
+}
+
 for (const [id, html] of Object.entries(scenes)) {
   fs.mkdirSync(path.join(__dirname, 'out'), { recursive: true });
   fs.writeFileSync(path.join(__dirname, 'out', `${id}.html`), applyPalette(html, id));
