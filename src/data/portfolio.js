@@ -9,6 +9,7 @@ import project8Cover from '../images/project8/cover.webp';
 import project9Cover from '../images/project9/cover.webp';
 import project10Cover from '../images/project10/cover.webp';
 import project11Cover from '../images/project11/cover.webp';
+import project12Cover from '../images/project12/cover.webp';
 
 export const resumeUrl =
   'https://drive.google.com/file/d/1IbW5OoP16tQTcJx3TvE7ZWC4Vy___Axi/view?usp=sharing';
@@ -124,6 +125,18 @@ export const certifications = [
 
 export const featuredProjects = [
   {
+    date: '2026-11-25',
+    title: 'Halden E2E',
+    cover: project12Cover,
+    id: 'project12',
+    description:
+      "An agentic end-to-end test suite for Halden Outfitters, with a team of ten Claude Code agents doing the QA engineering around the tests. A /qa command takes each feature through stages that share one folder: a spec written from the shop's code and SQL business rules, an explore run in which functional, exploratory, phone, tablet and desktop testers work in parallel, each in its own browser session on its own device, and an automate pipeline in which separate agents plan the tests by risk, write them, review them and triage failures. Every expected result cites its source. The reviewer proves each new test fails when its expected value is flipped, its action is skipped and the planted bug it guards is switched on, and the triager may fix locators but never loosen an assertion. Explore runs can be blind, with hidden planted bugs and a detection score, and a person approves the spec, the test plan and every finding.",
+    tech: ['Claude Code', 'Agentic Testing', 'Playwright', 'PostgreSQL'],
+    github: 'https://github.com/rameshlakmal/halden-e2e',
+    external: 'https://github.com/rameshlakmal/halden-e2e/blob/main/docs/AGENTIC-QA.md',
+    externalLabel: 'Guide',
+  },
+  {
     date: '2026-11-17',
     title: 'BugSnap',
     cover: project11Cover,
@@ -146,6 +159,9 @@ export const featuredProjects = [
     github: 'https://github.com/rameshlakmal/halden-outfitters',
     external: 'https://halden-outfitters.vercel.app',
   },
+];
+
+export const projects = [
   {
     date: '2026-10-22',
     title: 'Propmaster',
@@ -156,9 +172,6 @@ export const featuredProjects = [
     tech: ['TypeScript', 'PostgreSQL', 'React', 'Vitest'],
     github: 'https://github.com/rameshlakmal/propmaster',
   },
-];
-
-export const projects = [
   {
     date: '2026-04-14',
     title: 'E2E Testing with Claude Agents',

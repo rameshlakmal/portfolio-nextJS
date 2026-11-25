@@ -99,6 +99,8 @@ const PALETTES = {
   project10: dark({ bg: '#121313', ink: '#f4f4f2', accent: '#4cc38a', warn: '#ff7a3d', red: '#ff4f5e', blue: '#6aa8ff' }),
   // BugSnap: its own light graphite UI, brand red for recording and errors, green for "issue created"
   project11: light({ bg: '#ececef', ink: '#0f0f12', accent: '#e5484d', warn: '#c27c00', red: '#e5484d', blue: '#1a8f50' }),
+  // Halden E2E: Claude's warm orange on a deep warm charcoal, rose red for the bug the team caught
+  project12: dark({ bg: '#14110f', ink: '#f6f1ea', accent: '#e8875f', warn: '#f2c25c', red: '#ff5c7a', blue: '#6aa8ff' }),
 };
 
 // Design colours used in build.cjs -> palette keys.

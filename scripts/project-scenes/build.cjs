@@ -1031,6 +1031,124 @@ const scenes = {};
     <div class="cursor11">${ICON.cursor}</div>`);
 }
 
+/* 12. Halden E2E: five Claude testers explore in parallel, the automate pipeline waits for your approval, the reviewer proves the test can fail. */
+{
+  const css = [];
+  css.push(`
+  .bar12{position:absolute;left:30px;top:24px;width:1220px;height:62px;border-radius:16px;background:#0e1217;border:1px solid rgba(255,255,255,.07);display:flex;align-items:center;padding:0 18px;gap:14px}
+  .logo12{width:36px;height:36px}.logo12 svg{width:36px;height:36px;display:block}
+  .chip12{height:30px;padding:0 12px;border-radius:15px;background:#141a22;font:400 13px/30px 'SF Mono',monospace;color:${SUB}}
+  .team{left:30px;top:106px;width:400px;height:580px}
+  .pipe{left:450px;top:106px;width:380px;height:580px}
+  .rev{left:850px;top:106px;width:400px;height:580px}
+  .ag{position:absolute;left:18px;right:18px;height:70px;border-radius:12px;background:#141a22;padding:10px 14px 0 60px}
+  .ag .av{position:absolute;left:14px;top:14px;width:32px;height:32px}
+  .ag .av svg{width:32px;height:32px}
+  .ag .nm{font:600 15px/20px 'SF Mono',monospace;color:${INK}}
+  .ag .dv{font-size:14px;color:${SUB};margin-top:2px}
+  .ag .st{position:absolute;right:14px;top:12px;font:400 13px/20px 'SF Mono',monospace;color:${TEAL}}
+  .pb{position:absolute;left:60px;right:14px;bottom:10px;height:4px;border-radius:2px;background:#1f2731;overflow:hidden}
+  .pb b{display:block;height:4px;border-radius:2px;background:${TEAL}}
+  .node{position:absolute;left:18px;right:18px;height:58px;border-radius:12px;padding:8px 14px 0 62px;border:1px solid transparent}
+  .node .ic{position:absolute;left:14px;top:9px;width:38px;height:38px;border-radius:50%;background:#10161d;border:1.5px solid #222b36;display:grid;place-items:center}
+  .node .ic svg{width:22px;height:22px}
+  .node .nm{font:600 15px/20px 'SF Mono',monospace;color:${INK}}
+  .node .sb{font-size:14px;color:${SUB};margin-top:2px;white-space:nowrap}
+  .appr{position:absolute;right:12px;top:13px;height:32px;padding:0 14px;border-radius:9px;background:${TEAL};color:#07090c;font:600 15px/32px 'Calibre'}
+  .rail{position:absolute;left:51px;top:150px;width:2px;height:342px;background:#1f2731}
+  .rail b{display:block;width:2px;background:${TEAL};box-shadow:0 0 8px ${TEAL}}
+  .code12{position:absolute;left:20px;right:20px;top:84px;height:104px;border-radius:12px;background:#0b0f14;border:1px solid #1d252f;padding:12px 14px;font:400 13px/26px 'SF Mono',monospace;color:${SUB};white-space:nowrap;overflow:hidden}
+  .mut{position:absolute;left:20px;right:20px;height:60px;border-radius:12px;background:#141a22;display:flex;align-items:center;gap:12px;padding:0 14px}
+  .mut .tx{font-size:16px;color:${INK}}
+  .mut .tx div{font:400 13px/18px 'SF Mono',monospace;color:${SUB}}
+  .mut .res{margin-left:auto;font:400 13px/22px 'SF Mono',monospace;color:${TEAL}}
+  .ripple12{position:absolute;width:40px;height:40px;margin:-20px 0 0 -20px;border-radius:50%;border:2px solid ${TEAL};opacity:0}
+  .cursor12{position:absolute;left:0;top:0;width:26px;height:26px;${anim('cur12')}}
+  `);
+
+  // Explore team: five testers on their own devices, in parallel, each finishing at its own pace.
+  const team = [
+    ['functional-tester', 'desktop · money, stock, permissions', 2.2],
+    ['explorer', 'desktop · charters + market benchmark', 2.0],
+    ['mobile-ui', 'iPhone · Pixel', 1.7],
+    ['tablet-ui', 'iPad · breakpoint boundaries', 1.9],
+    ['desktop-ui', '1280 px to 2K · copy · a11y', 1.6],
+  ];
+  const teamHtml = team.map(([name, dev, end], i) => {
+    css.push(kf(`pf${i}`, [[0, 'width:100%'], [0.3, 'width:0%'], [0.4, 'width:0%'], [end, 'width:100%'], [D, 'width:100%']]));
+    css.push(restOn(`ds${i}`, end, 'opacity:0', 'opacity:1'));
+    return `<div class="ag" style="top:${84 + i * 80}px"><span class="av">${L.claude}</span>
+      <div class="nm">${name}</div><div class="dv">${dev}</div><span class="st" style="${anim(`ds${i}`)}">done</span>
+      <div class="pb"><b style="${anim(`pf${i}`)}"></b></div></div>`;
+  }).join('');
+  css.push(restOn('find12', 2.3, 'opacity:0;transform:translateY(6px)', 'opacity:1;transform:translateY(0)'));
+
+  // Automate pipeline: each agent lights up in turn; the plan waits for a person to approve it.
+  const steps = [
+    ['spec-builder', 'feature.md from code + SQL rules', 2.6],
+    ['test-analyst', 'testplan.md, every result sourced', 3.0],
+    ['you', 'approve the plan', 3.55],
+    ['automation-engineer', 'page objects + e2e specs', 4.0],
+    ['reviewer', 'proves each test can fail', 4.4],
+    ['failure-triager', 'fixes locators, escalates bugs', 6.4],
+  ];
+  const stepTop = (i) => 84 + i * 76;
+  const pipeHtml = steps.map(([name, sub, t], i) => {
+    const human = name === 'you';
+    css.push(restOn(`ni${i}`, t, 'border-color:#222b36;box-shadow:none', `border-color:${TEAL};box-shadow:0 0 22px -4px ${TEAL}`));
+    if (human) css.push(restOn(`nb${i}`, t, 'border-color:transparent;background:transparent', `border-color:${TEAL}55;background:${TEAL}12`));
+    return `<div class="node" style="top:${stepTop(i)}px;${human ? anim(`nb${i}`) : ''}"><span class="ic" style="${anim(`ni${i}`)}">${human ? ICON.person : L.claude}</span>
+      <div class="nm">${human ? 'You' : name}</div><div class="sb">${sub}</div>${human ? `<span class="appr" style="${anim('ap12')}">Approve</span>` : ''}</div>`;
+  }).join('');
+  css.push(kf('rail12', [[0, 'height:100%'], [0.3, 'height:0%'], [2.5, 'height:0%'], [3.0, 'height:20%'], [3.45, 'height:40%'], [3.6, 'height:40%'],
+    [4.0, 'height:60%'], [4.4, 'height:80%'], [6.2, 'height:80%'], [6.4, 'height:100%'], [D, 'height:100%']]));
+  css.push(kf('ap12', [[0, 'transform:scale(1)'], [3.48, 'transform:scale(1)'], [3.56, 'transform:scale(.94)'], [3.72, 'transform:scale(1)'], [D, 'transform:scale(1)']]));
+
+  // Cursor clicks Approve, then rests.
+  const APPROVE = [450 + 380 - 12 - 40, 106 + stepTop(2) + 29];
+  const at = (x, y, s = '') => `transform:translate(${x - 5}px,${y - 3}px)${s}`;
+  const REST = [1238, 684];
+  css.push(kf('cur12', [[0, at(...REST)], [2.6, at(...REST)], [3.45, at(...APPROVE)], [3.52, at(...APPROVE, ' scale(.85)')], [3.64, at(...APPROVE)],
+    [4.3, at(...APPROVE)], [5.0, at(...REST)], [D, at(...REST)]]));
+  css.push(kf('rp12', [[0, 'transform:scale(.3);opacity:0'], [3.52, 'transform:scale(.3);opacity:.9'], [4.2, 'transform:scale(3.2);opacity:0'], [D, 'transform:scale(3.2);opacity:0']]));
+
+  // Reviewer: three mutations, each must make the new test fail ("killed").
+  const muts = [
+    ['Flip the expected value', 'total off by one cent', 4.7],
+    ['Skip the action', 'never apply the code', 5.1],
+    ['Switch on the planted bug', 'HALDEN_BUGS=coupon_twice', 5.5],
+  ];
+  const mutHtml = muts.map(([tx, sub, t], i) => {
+    css.push(restOn(`mr${i}`, t, 'border-color:#29323d;background:transparent', `border-color:${TEAL};background:${TEAL}22`));
+    css.push(restOn(`mc${i}`, t + 0.05, 'opacity:0;transform:scale(.4)', 'opacity:1;transform:scale(1)'));
+    css.push(restOn(`ms${i}`, t + 0.1, 'opacity:0', 'opacity:1'));
+    return `<div class="mut" style="top:${208 + i * 72}px"><div class="chk" style="${anim(`mr${i}`)}"><span style="display:grid;${anim(`mc${i}`)}">${ICON.check}</span></div>
+      <div class="tx">${tx}<div>${sub}</div></div><span class="res" style="${anim(`ms${i}`)}">test failed</span></div>`;
+  }).join('');
+  css.push(restOn('verd12', 6.0, 'opacity:0;transform:translateY(6px)', 'opacity:1;transform:translateY(0)'));
+  css.push(restOn('com12', 6.6, 'opacity:0', 'opacity:1'));
+
+  scenes.project12 = page('project12', css.join(''), `
+    <div class="bar12"><div class="logo12">${L.claude}</div><span class="h2">Halden E2E</span>
+      <span class="s" style="margin-left:8px">a QA team of Claude agents</span>
+      <div style="margin-left:auto;display:flex;gap:10px"><span class="chip12">10 agents</span><span class="chip12">5 device targets</span><span class="chip12">/qa explore · automate</span></div></div>
+    <div class="panel team"><div class="t h2" style="left:20px;top:20px">Explore team</div><div class="t m" style="left:20px;top:48px">in parallel · own browser each</div>
+      ${teamHtml}
+      <div class="t" style="left:18px;right:18px;top:494px;height:58px;border-radius:12px;background:${RED}14;border:1px solid ${RED}55;padding:9px 14px;${anim('find12')}">
+        <div class="cap" style="color:${RED}">BUG-01 · confirmed</div><div class="m" style="color:${INK}">WELCOME10 taken twice at checkout</div></div></div>
+    <div class="panel pipe"><div class="t h2" style="left:20px;top:20px">Automate pipeline</div><div class="t m" style="left:20px;top:48px">fresh context per step</div>
+      <div class="rail"><b style="${anim('rail12')}"></b></div>
+      ${pipeHtml}</div>
+    <div class="panel rev"><div class="t h2" style="left:20px;top:20px">Can the test fail?</div><div class="t m" style="left:20px;top:48px">reviewer · coupons.guest.e2e.ts</div>
+      <div class="code12"><div><span style="color:${INK}">test</span>('Verify that WELCOME10 takes</div><div>&nbsp;&nbsp;10% off a cart, once',</div><div>&nbsp;&nbsp;{ tags: [<span style="color:${TEAL}">'P0'</span>, <span style="color:${AMBER}">'bug:coupon_twice'</span>] })</div></div>
+      ${mutHtml}
+      <div class="t" style="left:20px;right:20px;top:446px;height:50px;border-radius:12px;background:${TEAL}14;border:1px solid ${TEAL}66;display:flex;align-items:center;gap:10px;padding:0 14px;${anim('verd12')}">
+        ${check('', `style="border-color:${TEAL};background:${TEAL}22"`)}<span class="h2" style="font-size:17px">APPROVE</span><span class="m" style="margin-left:auto">3 / 3 mutations killed</span></div>
+      <div class="t m" style="left:20px;top:514px;${anim('com12')}">you review the diff and commit</div></div>
+    <div class="ripple12" style="left:${APPROVE[0]}px;top:${APPROVE[1]}px;${anim('rp12', D, 'ease-out')}"></div>
+    <div class="cursor12">${ICON.cursor}</div>`);
+}
+
 for (const [id, html] of Object.entries(scenes)) {
   fs.mkdirSync(path.join(__dirname, 'out'), { recursive: true });
   fs.writeFileSync(path.join(__dirname, 'out', `${id}.html`), applyPalette(html, id));
